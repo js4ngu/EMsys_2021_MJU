@@ -1,0 +1,8 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/jongsangyoo/EMsys/EMsys_2021'
+gcc -c 1.c -o 1.o
+gcc -c 2.c -o 2.o
+gcc -c main.c -o main.o
+gcc 1.o 2.o main.o -o final.elf
+make: Leaving directory '/home/jongsangyoo/EMsys/EMsys_2021'
+ 
