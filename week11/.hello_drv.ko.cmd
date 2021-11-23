@@ -1,0 +1,1 @@
+cmd_/home/jongsangyoo/EMsys/week11/hello_drv.ko := arm-linux-gnueabi-ld -EL -r  -T /home/jongsangyoo/EMsys/DD_REF/linux_kernel/scripts/module-common.lds --build-id  -o /home/jongsangyoo/EMsys/week11/hello_drv.ko /home/jongsangyoo/EMsys/week11/hello_drv.o /home/jongsangyoo/EMsys/week11/hello_drv.mod.o
