@@ -116,3 +116,6 @@ module_init(init_hello); //  모듈 로딩시(insmod) 해당 함수 호출
 module_exit(exit_hello); //  모듈 제거시(rmmod) 해당 함수 호출
 
 MODULE_LICENSE("GPL");
+
+
+//git push test
