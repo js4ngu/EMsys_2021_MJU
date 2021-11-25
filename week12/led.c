@@ -1,5 +1,4 @@
 #include "led.h"
-#include <fcntl.h>
 
 static unsigned int ledValue = 0;
 static int fd = 0;
@@ -20,10 +19,8 @@ int ledLibInit(void)
     ledValue = 0;
 }
 
-
 int ledLibExit(void)
 {
     ledValue = 0;
     ledOnOff(0, 0);
     close(fd);
-}
