@@ -341,17 +341,17 @@ void Level3_Playgame(int destination[2], int nextStage){
 }
 
 
-void Ball_display1(int ballLocation[2], int hurdle_0[2], int hurdle_1[2]){
+void Ball_display1(int ballLocation[2], int hurdle_0[4], int hurdle_1[4]){
     //BMP파일 로드
     //boll Location이랑 or 연산
     //TFT에 뿌려주기
 }
-void Ball_display2(int ballLocation[2], int hurdle_0[2], int hurdle_1[2]){
+void Ball_display2(int ballLocation[2], int hurdle_0[4], int hurdle_1[4]){
     //BMP파일 로드
     //boll Location or 연산
     //TFT에 뿌려주기
 }
-void Ball_display3(int ballLocation[2], int hurdle_0[2], int hurdle_1[2], int hurdle_2[2]){
+void Ball_display3(int ballLocation[2], int hurdle_0[2], int hurdle_1[4], int hurdle_2[4]){
     //BMP파일 로드
     //boll Location or 연산
     //TFT에 뿌려주기
