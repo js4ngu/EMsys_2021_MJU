@@ -85,6 +85,7 @@ void main(){
 */
 
 void Level1(int stage){
+    int ballLocation[2] = {0,0};
     switch (stage) {
         case STAGE1:
             Level1_Playgame(x,y,STAGE2);
@@ -117,6 +118,7 @@ void Level1(int stage){
 }
 
 void Level2(int stage){
+    int ballLocation[2] = {0,0};
     switch (stage) {
         case STAGE1:
             Level2_Playgame(x,y,STAGE2);
@@ -149,6 +151,7 @@ void Level2(int stage){
 }
 
 void Level3(int stage){
+    int ballLocation[2] = {0,0};
     switch (stage) {
         case STAGE1:
             Level3_Playgame(x,y,STAGE2);
@@ -182,7 +185,6 @@ void Level3(int stage){
 
 void Level1_Playgame(int destination[2], int nextStage){
     int ballSpeed[2];
-    ballLocation[2];
     int hurdle_0[4]  = {x1,x2,y1,y2};
 
     int des_Flag[2] = {0,0};
@@ -190,7 +192,7 @@ void Level1_Playgame(int destination[2], int nextStage){
     int result = 2;
 
     while (1) {
-        Ball_display1(ballLocation[], hurdle_0[]);
+        Ball_display1(ballLocation[2], hurdle_0[4]);
         ballSpeed[0] = mobility * readGyro_x();
         ballSpeed[1] = mobility * readGyro_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
@@ -229,7 +231,6 @@ void Level1_Playgame(int destination[2], int nextStage){
 
 void Level2_Playgame(int destination[2], int nextStage){
     int ballSpeed[2];
-    int ballLocation[2] = {0,0};
 
     int hurdle_0[4]  = {x1,x2,y1,y2};
     int hurdle_1[4]  = {x1,x2,y1,y2};
@@ -240,7 +241,7 @@ void Level2_Playgame(int destination[2], int nextStage){
     int result = 2;
 
     while (1) {
-        Ball_display2(ballLocation[], hurdle_0[], hurdle_1[]);
+        Ball_display2(ballLocation[2], hurdle_0[4], hurdle_1[4]);
         ballSpeed[0] = mobility * readGyro_x();
         ballSpeed[1] = mobility * readGyro_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
@@ -284,19 +285,19 @@ void Level2_Playgame(int destination[2], int nextStage){
 
 void Level3_Playgame(int destination[2], int nextStage){
     int ballSpeed[2];
-    int ballLocation[2] = {0,0};
 
     int hurdle_0[4]  = {x1,x2,y1,y2};
     int hurdle_1[4]  = {x1,x2,y1,y2};
     int hurdle_2[4]  = {x1,x2,y1,y2};
 
     int des_Flag[2] = {0,0};
+    int deadLine_Flag0[2];
     int deadLine_Flag1[2];
     int deadLine_Flag2[2];
     int result = 2;
 
     while (1) {
-        Ball_display3(ballLocation[], hurdle_0[], hurdle_1[], hurdle_2[]);
+        Ball_display3(ballLocation[2], hurdle_0[4], hurdle_1[4], hurdle_2[4]);
         ballSpeed[0] = mobility * readGyro_x();
         ballSpeed[1] = mobility * readGyro_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
@@ -363,7 +364,7 @@ void Ball_display3(int ballLocation[2], int hurdle_0[2], int hurdle_1[4], int hu
 }
 
 int set_Mobility(){
-    int temp = int(readTemp);
+    int temp = int(readTemp());
     if ( (-10<temp) && (temp<60) ){
         mobility = temp + 10;
     }
