@@ -1,4 +1,9 @@
-#include <math.h>
+/*
+임의로 가정하고 사용한 함수명 목록
+readTemp();
+readGyro_x();
+readGyro_y();
+*/
 
 #define MENU 0
 #define LEVEL1 1
@@ -357,16 +362,18 @@ void Ball_display3(int ballLocation[2], int hurdle_0[2], int hurdle_1[4], int hu
     //TFT에 뿌려주기
 }
 
-int set_Mobility(double temp){
+int set_Mobility(){
+    int temp = int(readTemp);
     if ( (-10<temp) && (temp<60) ){
-
+        mobility = temp + 10;
     }
     else if(temp < -10){
         mobility = 1;
     }
     else if(60 < temp){
-        mobility = 100;
+        mobility = 60;
     }
     else;
     return mobility;
 }
+
