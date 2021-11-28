@@ -55,15 +55,15 @@ void main(){
         break;
         
     case LEVEL1:
-        Level1(int stage);
+        Level1(stage);
         break;
 
     case LEVEL2:
-        Level2(int stage);
+        Level2(stage);
         break;
 
     case LEVEL3:
-        Level3(int stage);
+        Level3(stage);
         break;
 
     case FAIL:
