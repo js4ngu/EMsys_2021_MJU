@@ -55,7 +55,7 @@ void main(){
         break;
         
     case LEVEL1:
-        Level1(stage);
+        Level1(stage, );
         break;
 
     case LEVEL2:
@@ -85,31 +85,46 @@ void main(){
 */
 
 void Level1(int stage){
-    int ballLocation[2] = {0,0};
+    int destination[2];
     switch (stage) {
         case STAGE1:
-            Level1_Playgame(x,y,STAGE2);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE2);
             break;
         case STAGE2:
-            Level1_Playgame(x,y,STAGE3);
+            destination[0] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE3);
             break;
         case STAGE3:
-            Level1_Playgame(x,y,STAGE4);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE4);
             break;
         case STAGE4:
-            Level1_Playgame(x,y,STAGE5);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE5);
             break;
         case STAGE5:
-            Level1_Playgame(x,y,STAGE6);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE6);
             break;
         case STAGE6:
-            Level1_Playgame(x,y,STAGE7);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE7);
             break;
         case STAGE7:
-            Level1_Playgame(x,y,STAGE8);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE8);
             break;
         case STAGE8:
-            Level1_Playgame(x,y,STAGE1);
+            destination[0] = ;
+            destination[1] = ;
+            Level1_Playgame(destination[0],destination[1],STAGE1);
             break;
         default:
             break;
@@ -118,31 +133,47 @@ void Level1(int stage){
 }
 
 void Level2(int stage){
-    int ballLocation[2] = {0,0};
+    int destination[2];
     switch (stage) {
         case STAGE1:
-            Level2_Playgame(x,y,STAGE2);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE2);
             break;
         case STAGE2:
-            Level2_Playgame(x,y,STAGE3);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE3);
             break;
         case STAGE3:
-            Level2_Playgame(x,y,STAGE4);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE4);
             break;
         case STAGE4:
-            Level2_Playgame(x,y,STAGE5);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE5);
             break;
         case STAGE5:
-            Level2_Playgame(x,y,STAGE6);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE6);
             break;
         case STAGE6:
-            Level2_Playgame(x,y,STAGE7);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE7);
             break;
         case STAGE7:
-            Level2_Playgame(x,y,STAGE8);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE8);
             break;
         case STAGE8:
-            Level2_Playgame(x,y,STAGE1);
+            destination[0] = ;
+            destination[1] = ;
+            Level2_Playgame(destination[0],destination[1],STAGE1);
             break;
         default:
             break;
@@ -151,31 +182,48 @@ void Level2(int stage){
 }
 
 void Level3(int stage){
-    int ballLocation[2] = {0,0};
+    int destination[2];
+
     switch (stage) {
         case STAGE1:
-            Level3_Playgame(x,y,STAGE2);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE2);
             break;
         case STAGE2:
-            Level3_Playgame(x,y,STAGE3);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE3);
             break;
         case STAGE3:
-            Level3_Playgame(x,y,STAGE4);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE4);
             break;
         case STAGE4:
-            Level3_Playgame(x,y,STAGE5);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE5);
             break;
         case STAGE5:
-            Level3_Playgame(x,y,STAGE6);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE6);
             break;
         case STAGE6:
-            Level3_Playgame(x,y,STAGE7);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE7);
             break;
         case STAGE7:
-            Level3_Playgame(x,y,STAGE8);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE8);
             break;
         case STAGE8:
-            Level3_Playgame(x,y,STAGE1);
+            destination[0] = ;
+            destination[1] = ;
+            Level3_Playgame(destination[0],destination[1],STAGE1);
             break;
         default:
             break;
@@ -183,7 +231,8 @@ void Level3(int stage){
         break;
 }
 
-void Level1_Playgame(int destination[2], int nextStage){
+void Level1_Playgame(int destination_x, int destination_y,int nextStage){
+    int destination[2] = {destination_x,destination_y};
     int ballSpeed[2];
     int hurdle_0[4]  = {x1,x2,y1,y2};
 
@@ -229,7 +278,8 @@ void Level1_Playgame(int destination[2], int nextStage){
     }
 }
 
-void Level2_Playgame(int destination[2], int nextStage){
+void Level2_Playgame(int destination_x, int destination_y, int nextStage){
+    int destination[2] = {destination_x,destination_y};
     int ballSpeed[2];
 
     int hurdle_0[4]  = {x1,x2,y1,y2};
@@ -283,7 +333,8 @@ void Level2_Playgame(int destination[2], int nextStage){
     }
 }
 
-void Level3_Playgame(int destination[2], int nextStage){
+void Level3_Playgame(int destination_x, int destination_y, int nextStage){
+    int destination[2] = {destination_x,destination_y};
     int ballSpeed[2];
 
     int hurdle_0[4]  = {x1,x2,y1,y2};
@@ -378,3 +429,4 @@ int set_Mobility(){
     return mobility;
 }
 
+//Pthread 이용해서 ball location 계속 변경하기
