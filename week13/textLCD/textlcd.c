@@ -40,11 +40,6 @@
 #define  CMD_TEST_GPIO_HIGH			0x30
 #define  CMD_TEST_GPIO_LOW			0x31
 
-unsigned int linenum = 0;
-stTextLCD  stlcd; 
-int fd;
-int len; 
-
 typedef struct TextLCD_tag 
 {
 	unsigned char cmd; //
@@ -54,6 +49,10 @@ typedef struct TextLCD_tag
 	char	TextData[LINE_NUM][LINE_BUFF_NUM];
 }stTextLCD,*pStTextLCD;
 
+unsigned int linenum = 0;
+stTextLCD  stlcd; 
+int fd;
+int len; 
 
 void doHelp(void) {
 	printf("usage: textlcdtest <option> <linenum> <'string'>\n");
@@ -77,8 +76,8 @@ void writeLCD(int linenum , char *str) {
 	}
 	else {
 		printf("linenum : %d  wrong .  range (1 ~ 2)\n", linenum);
-		return 1; 
 	}
+
 	printf("LCD Write:%s\n",str);
 	len = strlen(str);
 	if ( len > COLUMN_NUM) {
@@ -97,13 +96,13 @@ int textLCD_Init(void) {
 	if ( fd < 0 ) {
 		perror("driver (//dev//peritextlcd) open error.\n");
 		return 1;
+	}
 }
 
 
-int textLCD_off(void) {
-	char str[] = {'      '};
+void textLCD_off(){
+	char str[] = {"                  "};
 	writeLCD(1,str);
 	writeLCD(2,str);
 	close(fd);
 }
-

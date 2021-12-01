@@ -31,10 +31,10 @@ typedef struct FNDWriteDataForm_tag
 void doHelp(void)
 {
 	printf("Usage:\n");
-	printf("fndtest [option] [displaynum] [maxcounter]  >\n");
+	printf("fndtest [option] [displaynum] >\n");
 	printf("option   1  : display  , displaynum range 0 ~ 999999\n");
 	printf("option   0  : fnd off\n");
-	printf("ex) fndtest s '123456'  ; display  '123456' \n");
+	printf("ex) fndtest 1 '123456'  ; display  '123456' \n");
 }
 
 #define ONE_SEG_DISPLAY_TIME_USEC	1000
