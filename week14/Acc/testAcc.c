@@ -11,4 +11,4 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-////arm-linux-gnueabi-gcc tempTest.c -lMyPeri -L.
+////arm-linux-gnueabi-gcc testAcc.c -lMyPeri -L.

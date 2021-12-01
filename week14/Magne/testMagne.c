@@ -1,7 +1,7 @@
 #include "magne.h"
 
 int main(int argc, char **argv){
-    int mange[3];
+    int magne[3];
 	magne[0] = readMagne_x();
     magne[1] = readMagne_y();
     magne[2] = readMagne_z();

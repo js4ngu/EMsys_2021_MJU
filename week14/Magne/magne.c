@@ -34,7 +34,7 @@ int readMagne_y(void) {
     close(fd);
     fp = fopen(MAGNEPATH "data", "rt");
 
-    fscanf(fp, "%d, %d, %d", &gyro[0], &gyro[1], &gyro[2]);
+    fscanf(fp, "%d, %d, %d", &magne[0], &magne[1], &magne[2]);
     //printf("I read Magneto %d, %d, %d\r\n", magne[0], magne[1], magne[2]);
     magne_y = magne[1];
     fclose(fp);
