@@ -1,6 +1,9 @@
 {
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
-        "ioctl.h": "c"
+        "ioctl.h": "c",
+        "magne.h": "c",
+        "temp.h": "c",
+        "gyro.h": "c"
     }
 }
