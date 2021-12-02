@@ -4,6 +4,8 @@
         "ioctl.h": "c",
         "magne.h": "c",
         "temp.h": "c",
-        "gyro.h": "c"
+        "gyro.h": "c",
+        "stdlib.h": "c",
+        "buzzer.h": "c"
     }
 }
