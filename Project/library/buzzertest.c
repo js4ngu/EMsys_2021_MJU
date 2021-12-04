@@ -1,41 +1,58 @@
 #include "buzzer.h"
 
-int main(int argc, char **argv)
+int main(void)
 {
-    int freIndex;
-    is_exit = 0;
+    if (buzzerInit() == 0)
+	{
+		printf ("Buzzer Initialized Failed\r\n");
+		return 1;
+    }
 
-    if (argc < 2 || findBuzzerSysPath())
-    {
-        printf("Error!\n");
-        doHelp();
-        return 1;
-    }
-    freIndex = atoi(argv[1]);
+    buzzerPlaySong(0);
+    usleep(200000);
+    buzzerPlaySong(4);
+    usleep(200000);
+    buzzerPlaySong(7);
+    usleep(200000);
+    buzzerStopSong();
+    usleep(400000);
 
-    printf("freIndex :%d \n", freIndex);
-    if (freIndex > MAX_SCALE_STEP)
-    {
-        buzzerPlaySong(freIndex);
-    }
-    if (freIndex < 0)
-    {
-        printf(" <buzzerNo> under range \n");
-        doHelp();
-        return 1;
-    }
-    if (freIndex == 0) // disable
-    {
-        buzzerStopSong();
-    }
-    if (freIndex == -1)
-    {
-        buzzerExit();
-    }
-    else
-    {
-        setFrequency(musicScale[freIndex - 1]);
-        buzzerEnable(1);
-    }
+    buzzerPlaySong(1);
+    usleep(200000);
+    buzzerPlaySong(5);
+    usleep(200000);
+    buzzerPlaySong(8);
+    usleep(200000);
+    buzzerStopSong();
+    usleep(400000);
+
+    buzzerPlaySong(2);
+    usleep(200000);
+    buzzerPlaySong(6);
+    usleep(200000);
+    buzzerPlaySong(9);
+    usleep(200000);
+    buzzerStopSong();
+    usleep(400000);
+
+    buzzerPlaySong(3);
+    usleep(200000);
+    buzzerPlaySong(7);
+    usleep(200000);
+    buzzerPlaySong(10);
+    usleep(200000);
+    buzzerStopSong();
+    usleep(400000);
+    
+    buzzerPlaySong(4);
+    usleep(200000);
+    buzzerPlaySong(8);
+    usleep(200000);
+    buzzerPlaySong(11);
+    usleep(200000);
+    buzzerStopSong();
+    usleep(400000);
+
+    buzzerExit();
     return 0;
 }

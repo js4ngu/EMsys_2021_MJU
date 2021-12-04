@@ -6,6 +6,7 @@
         "temp.h": "c",
         "gyro.h": "c",
         "stdlib.h": "c",
-        "buzzer.h": "c"
+        "buzzer.h": "c",
+        "fcntl.h": "c"
     }
 }
