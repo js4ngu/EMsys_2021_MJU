@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    ledLibInit();
+    ledInit();
 
     for (int i = 0; i < 8; i++)
     {
@@ -17,6 +17,6 @@ int main(void)
         sleep(1);
     }
 
-    ledLibExit();
+    ledExit();
     return 0;
 }

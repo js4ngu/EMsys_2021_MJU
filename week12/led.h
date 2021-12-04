@@ -12,14 +12,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define LED_DRIVER_NAME "/dev/perifnd"
+#define LED_DRIVER_NAME "/dev/periled"
 #define ON 1
 #define OFF 0
 
-void doHelp(void);
-int ledLibInit(void);
+int ledInit(void);
 int ledOnOff(int ledNum, int onOff);
 int ledStatus(void);
-int ledLibExit(void);
+int ledExit(void);
 
 #endif

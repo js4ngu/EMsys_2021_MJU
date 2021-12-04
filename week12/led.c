@@ -3,15 +3,7 @@
 static unsigned int ledValue = 0;
 static int fd = 0;
 
-void doHelp(void)
-{
-    printf("ledtest <hex byte> :data bit0 operation 1=>on 0=>off\n");
-    printf(" ledtest 0x05 ;4th and 1th led on\n");
-    printf(" ledtest 0xff ;all led on\n");
-    printf(" ledtest 0x00 ;all led off\n");
-}
-
-int ledLibInit(void)
+int ledInit(void)
 {
     fd = open(LED_DRIVER_NAME, O_WRONLY);
     if (fd < 0)
@@ -50,7 +42,7 @@ int ledStatus(void)
     printf("\r\n");
 }
 
-int ledLibExit(void)
+int ledExit(void)
 {
     ledValue = 0;
     ledOnOff(0, 0);

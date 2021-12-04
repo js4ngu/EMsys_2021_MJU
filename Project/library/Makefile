@@ -21,5 +21,5 @@ buzzer.o: buzzer.h buzzer.c
 	arm-linux-gnueabi-gcc -c buzzer.c -o buzzer.o
 
 clean: 
-	rm -f *.o *.a
+	rm -f *.o *.a *.out
 	rm -f $(TARGET)
