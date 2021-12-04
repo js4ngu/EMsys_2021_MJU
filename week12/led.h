@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define DRIVER_NAME "/dev/perifnd"
+#define LED_DRIVER_NAME "/dev/perifnd"
 #define ON 1
 #define OFF 0
 

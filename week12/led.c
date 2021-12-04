@@ -3,12 +3,6 @@
 static unsigned int ledValue = 0;
 static int fd = 0;
 
-enum LedState
-{
-    OFF = 0,
-    ON
-};
-
 void doHelp(void)
 {
     printf("ledtest <hex byte> :data bit0 operation 1=>on 0=>off\n");
@@ -32,23 +26,28 @@ int ledOnOff(int ledNum, int onOff) // ON or OFF
 {
     int i = 1;
     i = i << ledNum;
-    ledValue = ledValue & (~i);
-    if (onOff != 0)
+
+    switch (onOff)
+    {
+    case ON:
         ledValue |= i;
+        break;
+
+    case OFF:
+        ledValue = ledValue & (~i);
+        break;
+
+    default:
+        printf("Error\r\n");
+    }
     write(fd, &ledValue, 4);
 }
 
 int ledStatus(void)
 {
-    bool is_led_on = false;
-    read(fd, &ledValue, 8);
-    printf("LED ON : ");
-    for(int i = 0;i<8;i++)
-    {
-        if(ledValue % 2 == 1)
-        printf("%d ", i);
-        ledValue = ledValue >> 1;
-    }
+    for (int i = 0; i < 8; i++)
+        printf("%d led on :%d\n", i, (ledValue >> i) & 1);
+    printf("\r\n");
 }
 
 int ledLibExit(void)
@@ -57,4 +56,3 @@ int ledLibExit(void)
     ledOnOff(0, 0);
     close(fd);
 }
-
