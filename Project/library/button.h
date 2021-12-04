@@ -2,15 +2,16 @@
 #define _BUTTON_H_
 #define MESSAGE_ID 6017
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/msg.h>
 #include <string.h>
 #include <linux/input.h>
-#include <unistd.h>    // for open/close
-#include <fcntl.h>     // for O_RDWR
-#include <sys/ioctl.h> // for ioctl
+#include <unistd.h> // for open/close
 #include <pthread.h>
-#include <sys/msg.h>
+#include <fcntl.h> // for O_RDWR
+#include <sys/ioctl.h> // for ioctl
 
 // first read input device
 #define INPUT_DEVICE_LIST "/dev/input/event" //실제 디바이스 드라이버 노드파일: 뒤에 숫자가 붙음., ex)/dev/input/event5
@@ -25,7 +26,7 @@ typedef struct
     int pressed;
 } BUTTON_MSG_T;
 
-void* buttonThFunc(void* arg);
+static void *buttonThFunc(void);
 int probeButtonPath(char *newPath);
 int buttonInit(void);
 int buttonStatus(void);

@@ -1,66 +1,27 @@
 #include "button.h"
 
-int fp
-int fd;
-int msgID;
-pthread_t buttonTh_id;
+static int fd = 0;
+static int msgID = 0;
+static pthread_t buttonTh_id;
 
-char inputDevPath[200] = {
-        0,
-    };
+char inputDevPath[256] = {
+    0,
+};
 
-void* buttonThFunc(void* arg)
+static void *buttonThFunc(void)
 {
-    struct BUTTON_MSG_T messageTxData;
-    int msgQueue = msgget(MESSAGE_ID, IPC_CREAT | 0666);
-    FILE *fp = fopen(PROBE_FILE, "rt");
+    BUTTON_MSG_T messageTxData;
+    messageTxData.messageNum = 1;
+    struct input_event stEvent;
     while (1)
     {
-        readSize = read(fp, &stEvent, sizeof(stEvent));
-        if (readSize != sizeof(stEvent))
+        read(fd, &stEvent, sizeof(stEvent));
+        if ((stEvent.type == EV_KEY) && (stEvent.value == 0))
         {
-            continue;
+            messageTxData.keyInput = stEvent.code;
+            msgsnd(msgID, &messageTxData, sizeof(int), 0);
         }
-        if (stEvent.type == EV_KEY)
-        {
-            printf("EV_KEY(");
-            switch (stEvent.code)
-            {
-            case KEY_VOLUMEUP:
-                printf("Volume up key):");
-                messageTxData.keyInput = 0;
-                break;
-            case KEY_HOME:
-                printf("Home key):");
-                messageTxData.keyInput = 1;
-                break;
-            case KEY_SEARCH:
-                printf("Search key):");
-                messageTxData.keyInput = 2;
-                break;
-            case KEY_BACK:
-                printf("Back key):");
-                messageTxData.keyInput = 3;
-                break;
-            case KEY_MENU:
-                printf("Menu key):");
-                messageTxData.keyInput = 4;
-                break;
-            case KEY_VOLUMEDOWN:
-                printf("Volume down key):");
-                messageTxData.keyInput = 5;
-                break;
-            }
-            if (stEvent.value)
-                printf("pressed\n");
-                messageTxData.pressed = 1;
-            else
-                printf("released\n");
-                messageTxData.pressed = 0;
-        }     //End of if
-        else  // EV_SYN
-            ; // do notthing
-    }         // End of While
+    }
 }
 
 int probeButtonPath(char *newPath)
@@ -101,25 +62,21 @@ int probeButtonPath(char *newPath)
 
 int buttonInit(void)
 {
-    if (probeButtonPath(inputDevPath) == 0)
-        return 0;
-    fd = open(buttonPath, O_RDONLY);
+    if ( probeButtonPath(inputDevPath) == 0)
+   {
+      printf ("ERROR! File Not Found!\r\n");
+      printf ("Did you insmod?\r\n");
+      return 0;
+   }
+   printf ("inputDevPath: %s\r\n", inputDevPath);
+    fd = open(inputDevPath, O_RDONLY);
     msgID = msgget(MESSAGE_ID, IPC_CREAT | 0666);
     pthread_create(&buttonTh_id, NULL, &buttonThFunc, NULL);
-    return 1;
+    return msgID;
 }
 
-int buttonStatus(void)
+int buttonLibExit(void)
 {
-    struct BUTTON_MSG_T messageRxData;
-    if(msgID == -1)
-    {
-        printf("Message Not Correctly Initialized!\r\n");
-        return -1;
-    }
-    while(1)
-    {
-        int returnValue = 0;
-        returnValue = msgrcv(msgID, &messageRxData, sizeof(messageRxData))
-    }
+    pthread_cancel(buttonTh_id);
+    close(fd);
 }

@@ -1,17 +1,38 @@
-int main(int argc, char *argv[])
-{
-    int fp;
-    int readSize, inputIndex;
-    struct input_event stEvent;
-    
-    if (buttonInit() == 0)
-    {
-        printf("ERROR! File Not Found!\r\n");
-        printf("Did you insmod?\r\n");
-        return 0;
-    }
+#include "button.h"
 
-    buttonStatus();
+static int msgID = 0;
+
+int main(void)
+{
+    msgID = buttonLibInit();
+    int returnValue = 0;
+    BUTTON_MSG_T messageRxData;
+    returnValue = msgrcv(msgID, &messageRxData, sizeof(int), 0, 0);
+    if (returnValue < 0)
+        printf("Receive Key Failed\r\n");
+    switch (messageRxData.keyInput)
+    {
+    case KEY_VOLUMEUP:
+        printf("Volume up key");
+        break;
+    case KEY_HOME:
+        printf("Home key");
+        break;
+    case KEY_SEARCH:
+        printf("Search key");
+        break;
+    case KEY_BACK:
+        printf("Back key");
+        break;
+    case KEY_MENU:
+        printf("Menu key");
+        break;
+    case KEY_VOLUMEDOWN:
+        printf("Volume down key");
+        break;
+    }
     
-    close(fp);
+    printf("\r\n");
+    buttonLibExit();
+    return 0;
 }
