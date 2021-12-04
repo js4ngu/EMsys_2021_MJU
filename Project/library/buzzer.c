@@ -1,13 +1,13 @@
 #include "buzzer.h"
 
 char gBuzzerBaseSysDir[128]; ///sys/bus/platform/devices/peribuzzer.XX 가 결정됨
-int is_exit = 0;
+static int fdEnable;
+static int fdFrequency;
 const int musicScale[MAX_SCALE_STEP] =
     {
-        262, /*do*/ 294, 330, 349, 392, 440, 494, /* si */ 523
-    };
+        262, /*do*/ 294, 330, 349, 392, 440, 494, /* si */ 523};
 
-int findBuzzerSysPath()
+int findBuzzerSysPath(void)
 {
     DIR *dir_info = opendir(BUZZER_BASE_SYS_PATH);
     int ifNotFound = 1;
@@ -41,46 +41,49 @@ void doHelp(void)
     printf("off(0),exit(-1) \n");
 }
 
+int buzzerInit(void)
+{
+    if (findBuzzerSysPath() == 0)
+        return 0;
+
+    char path[256];
+    sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_ENABLE_NAME);
+    fdEnable = open(path, O_WRONLY);
+
+    sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
+    fdFrequency = open(path, O_WRONLY);
+
+    return 1;
+}
+
 void buzzerEnable(int bEnable)
 {
-    char path[200];
-    sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_ENABLE_NAME);
-    int fd = open(path, O_WRONLY);
     if (bEnable)
-        write(fd, &"1", 1);
+        write(fdEnable, &"1", 1);
     else
-        write(fd, &"0", 1);
-    close(fd);
+        write(fdEnable, &"0", 1);
 }
 
 void setFrequency(int frequency)
 {
-    char path[200];
-    sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
-    int fd = open(path, O_WRONLY);
-    dprintf(fd, "%d", frequency);
-    close(fd);
-}
-
-int buzzerInit(void)
-{
-    findBuzzerSysPath();
+    dprintf(fdFrequency, "%d", frequency);
 }
 
 void buzzerPlaySong(int scale)
 {
-    setFrequency(musicScale[freIndex - 1]);
+    setFrequency(musicScale[scale]);
     buzzerEnable(1);
 }
 
 void buzzerStopSong(void)
 {
-    buzzerPlaySong(0);
     buzzerEnable(0);
 }
 
-void buzzerExit(void)
+int buzzerExit(void)
 {
-    buzzerStopSong();
-    exit(0);
+    buzzerEnable(0);
+    close(fdEnable);
+    close(fdFrequency);
+    return 0;
 }

@@ -1,41 +1,32 @@
 #include "buzzer.h"
 
-int main(int argc, char **argv)
+int main()
 {
-    int freIndex;
-    is_exit = 0;
-
-    if (argc < 2 || findBuzzerSysPath())
+    if (buzzerInit() == 0)
     {
-        printf("Error!\n");
-        doHelp();
+        printf("Buzzer Initialize Failed!\r\n");
         return 1;
     }
-    freIndex = atoi(argv[1]);
 
-    printf("freIndex :%d \n", freIndex);
-    if (freIndex > MAX_SCALE_STEP)
-    {
-        buzzerPlaySong(freIndex);
-    }
-    if (freIndex < 0)
-    {
-        printf(" <buzzerNo> under range \n");
-        doHelp();
-        return 1;
-    }
-    if (freIndex == 0) // disable
-    {
-        buzzerStopSong();
-    }
-    if (freIndex == -1)
-    {
-        buzzerExit();
-    }
-    else
-    {
-        setFrequency(musicScale[freIndex - 1]);
-        buzzerEnable(1);
-    }
+    buzzerPlaySong(0);
+    usleep(500000);
+    buzzerPlaySong(1);
+    usleep(500000);
+    buzzerPlaySong(2);
+    usleep(500000);
+    buzzerPlaySong(3);
+    usleep(500000);
+    buzzerPlaySong(4);
+    usleep(500000);
+    buzzerPlaySong(5);
+    usleep(500000);
+    buzzerPlaySong(6);
+    usleep(500000);
+    buzzerPlaySong(7);
+    usleep(500000);
+    buzzerStopSong();
+
+    buzzerExit();
+
     return 0;
 }
