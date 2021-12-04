@@ -6,7 +6,6 @@ int main(int argc, char **argv)
     if (argc < 2 || findBuzzerSysPath())
     {
         printf("Error!\n");
-        doHelp();
         return 1;
     }
     freIndex = atoi(argv[1]);

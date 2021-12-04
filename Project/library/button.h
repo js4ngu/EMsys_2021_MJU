@@ -30,5 +30,6 @@ static void *buttonThFunc(void);
 int probeButtonPath(char *newPath);
 int buttonInit(void);
 int buttonStatus(void);
+int buttonExit(void);
 
 #endif

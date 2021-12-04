@@ -33,6 +33,6 @@ int main(void)
     }
     
     printf("\r\n");
-    buttonLibExit();
+    buttonExit();
     return 0;
 }

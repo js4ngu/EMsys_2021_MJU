@@ -75,7 +75,7 @@ int buttonInit(void)
     return msgID;
 }
 
-int buttonLibExit(void)
+int buttonExit(void)
 {
     pthread_cancel(buttonTh_id);
     close(fd);
