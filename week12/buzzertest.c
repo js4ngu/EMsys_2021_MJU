@@ -1,12 +1,19 @@
 #include "buzzer.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
-    if (buzzerInit() == 0)
-	{
-		printf ("Buzzer Initialized Failed\r\n");
-		return 1;
+    int freIndex;
+    if (argc < 2 || findBuzzerSysPath())
+    {
+        printf("Error!\n");
+        doHelp();
+        return 1;
     }
+    freIndex = atoi(argv[1]);
+    printf("freIndex :%d \n", freIndex);
+
+    buzzerPlaySong(freIndex);
+    sleep(1);
 
     buzzerPlaySong(0);
     usleep(200000);
@@ -43,7 +50,7 @@ int main(void)
     usleep(200000);
     buzzerStopSong();
     usleep(400000);
-    
+
     buzzerPlaySong(4);
     usleep(200000);
     buzzerPlaySong(8);

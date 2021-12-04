@@ -1,6 +1,6 @@
 #include "buzzer.h"
 
-char gBuzzerBaseSysDir[128]; ///sys/bus/platform/devices/peribuzzer.XX 가 결정됨
+char gBuzzerBaseSysDir[128]; // /sys/bus/platform/devices/peribuzzer.XX 가 결정됨
 static int fdEnable;
 static int fdFrequency;
 
@@ -45,7 +45,7 @@ int findBuzzerSysPath(void) //버저 경로 찾기: /sys/bus/platform/devices/pe
 
 int buzzerInit(void)
 {
-    if (findBuzzerSysPath() == 0)
+    if (findBuzzerSysPath() != 0)
         return 0;
 
     char path[256];
