@@ -4,7 +4,7 @@ static int msgID = 0;
 
 int main(void)
 {
-    msgID = buttonLibInit();
+    msgID = buttonInit();
     int returnValue = 0;
     BUTTON_MSG_T messageRxData;
     returnValue = msgrcv(msgID, &messageRxData, sizeof(int), 0, 0);

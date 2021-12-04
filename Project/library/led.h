@@ -22,4 +22,4 @@ int ledOnOff(int ledNum, int onOff);
 int ledStatus(void);
 int ledLibExit(void);
 
-#endif _LED_H
+#endif
