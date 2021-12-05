@@ -17,7 +17,8 @@ const int musicScale[MAX_SCALE_STEP] = // Just Intonation : 12 sounds
         415, // G#
         440, // A
         466, // A#
-        494 // B
+        494, // B
+        523 // C
     };
 
 int findBuzzerSysPath(void) //버저 경로 찾기: /sys/bus/platform/devices/peribuzzer.XX 의 XX를 결정하는 것
@@ -45,8 +46,11 @@ int findBuzzerSysPath(void) //버저 경로 찾기: /sys/bus/platform/devices/pe
 
 int buzzerInit(void)
 {
-    if (findBuzzerSysPath() != 0)
+    if (findBuzzerSysPath() == 1)
+    {
+        printf("Path Find Failed\r\n");
         return 0;
+    }
 
     char path[256];
     sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_ENABLE_NAME);
@@ -54,6 +58,8 @@ int buzzerInit(void)
 
     sprintf(path, "%s%s", gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
     fdFrequency = open(path, O_WRONLY);
+
+    printf("File Successfully Opened!\r\n");
 
     return 1;
 }

@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <dirent.h>
 
-#define MAX_SCALE_STEP 12
+#define MAX_SCALE_STEP 13
 #define BUZZER_BASE_SYS_PATH "/sys/bus/platform/devices/"
 #define BUZZER_FILENAME "peribuzzer"
 #define BUZZER_ENABLE_NAME "enable"
