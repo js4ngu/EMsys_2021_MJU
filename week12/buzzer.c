@@ -4,7 +4,7 @@ char gBuzzerBaseSysDir[128]; // /sys/bus/platform/devices/peribuzzer.XX 가 결�
 static int fdEnable;
 static int fdFrequency;
 
-const int musicScale[MAX_SCALE_STEP] = // Just Intonation : 12 sounds
+const int musicScale[MAX_SCALE_STEP] = // Just Intonation : 13 sounds
     {
         262, // C
         277, // C#
@@ -67,9 +67,9 @@ int buzzerInit(void)
 void buzzerEnable(int bEnable)
 {
     if (bEnable)
-        write(fdEnable, &"1", 1);
+        write(fdEnable, "1", 1);
     else
-        write(fdEnable, &"0", 1);
+        write(fdEnable, "0", 1);
 }
 
 void setFrequency(int frequency)
