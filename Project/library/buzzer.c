@@ -46,7 +46,7 @@ int findBuzzerSysPath(void) //버저 경로 찾기: /sys/bus/platform/devices/pe
 
 int buzzerInit(void)
 {
-    if (findBuzzerSysPath() == 1)
+    if (findBuzzerSysPath() != 1)
     {
         printf("Path Find Failed\r\n");
         return 0;
