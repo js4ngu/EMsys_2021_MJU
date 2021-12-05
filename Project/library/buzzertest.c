@@ -9,6 +9,7 @@ int main(int argc, char **argv)
         return 1;
     }
     freIndex = atoi(argv[1]);
+    buzzerInit();
     printf("freIndex :%d \n", freIndex);
 
     buzzerPlaySong(freIndex);
@@ -59,6 +60,6 @@ int main(int argc, char **argv)
     buzzerStopSong();
     usleep(400000);
 
-    // buzzerExit();
+    //buzzerExit();
     return 0;
 }
