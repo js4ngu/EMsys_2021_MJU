@@ -59,6 +59,6 @@ int main(int argc, char **argv)
     buzzerStopSong();
     usleep(400000);
 
-    buzzerExit();
+    // buzzerExit();
     return 0;
 }
