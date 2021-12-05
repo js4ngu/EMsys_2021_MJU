@@ -67,9 +67,9 @@ int buzzerInit(void)
 void buzzerEnable(int bEnable)
 {
     if (bEnable)
-        write(fdEnable, &"1", 1);
+        write(fdEnable, "1", 1);
     else
-        write(fdEnable, &"0", 1);
+        write(fdEnable, "0", 1);
 }
 
 void setFrequency(int frequency)
