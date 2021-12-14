@@ -48,7 +48,7 @@ void main(){
         break;
         
     case LEVEL1:
-        Level1(stage, );
+        Level1(stage);
         break;
 
     case LEVEL2:
@@ -87,6 +87,7 @@ void Level1(int stage){
             break;
         case STAGE2:
             destination[0] = ;
+            destination[1] = ;
             Level1_Playgame(destination[0],destination[1],STAGE3);
             break;
         case STAGE3:
