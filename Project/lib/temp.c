@@ -35,7 +35,7 @@ int spi_init(char filename[40]) {
 		return 0;
 	}
  
-printf("%s: spi mode %d, %d bits %sper word, %d Hz max\n",filename, mode, bits, lsb ? "(lsb first) " : "", speed); 
+	//printf("%s: spi mode %d, %d bits %sper word, %d Hz max\n",filename, mode, bits, lsb ? "(lsb first) " : "", speed); 
     return file;
 }
  

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h> // for exit
 #include "./lib/accelMagGyro.h"
 #include "./lib/button.h"
 #include "./lib/buzzer.h"
@@ -57,7 +58,6 @@ void Ball_display3(int ballLocationX, int ballLocationY);
 int set_Mobility();
 int angle_x(void);
 int angle_y(void);
-int Ball_speed(char axis);
 
 int ballLocation[2] = {0,0};
 int status = MENU;
@@ -67,36 +67,51 @@ int mobility = 0;
 
 void main(){
     HW_init();
-    switch (status) {
-    case MENU:
-        TFT_Display();
-        if (key_value == START) {
-            status = LEVEL1;
+    while (1){
+        switch (status) {
+            case MENU:
+                //fndDisp(000000, 0);
+                /*
+                if (key_value == START) {
+                    status = LEVEL1;
+                }
+                else if(key_value == EXIT) {
+                    //status;
+                }
+                */
+                status = LEVEL1;
+                break;
+                
+            case LEVEL1:
+                fndDisp(1, 0);
+                printf("%d, ", angle_x());
+                printf("%d\n", angle_y());
+                Level1(stage);
+                //status = LEVEL2;
+                break;
+
+            case LEVEL2:
+                //fndDisp(2, 0);
+                //Level2(stage);
+                status = LEVEL3;
+                break;
+
+            case LEVEL3:
+                //fndDisp(3, 0);
+                //Level3(stage);
+                status = LEVEL1;
+                break;
+
+            case FAIL:
+                //fndOff();
+                break;
+
+            default:
+                fndOff();
+                status = MENU;
+                stage = STAGE1;
+                break;
         }
-        else if(key_value == EXIT) {
-            //status;
-        }
-        break;
-        
-    case LEVEL1:
-        Level1(stage);
-        break;
-
-    case LEVEL2:
-        Level2(stage);
-        break;
-
-    case LEVEL3:
-        Level3(stage);
-        break;
-
-    case FAIL:
-        break;
-
-    default:
-        status = MENU;
-        stage = STAGE1;
-        break;
     }
 }
 
@@ -154,7 +169,6 @@ void Level1(int stage){
         default:
             break;
         }
-
 }
 
 void Level2(int stage){
@@ -264,8 +278,8 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
 
     while (1) {
         Ball_display1(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * Ball_speed(X);
-        ballSpeed[1] = mobility * Ball_speed(Y);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -297,6 +311,7 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
         if (result == 1) stage = nextStage;
         else if (result == 0) status = FAIL;
     }
+
 }
 
 void Level2_Playgame(int destination_x, int destination_y, int nextStage){
@@ -310,8 +325,8 @@ void Level2_Playgame(int destination_x, int destination_y, int nextStage){
 
     while (1) {
         Ball_display2(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * Ball_speed(X);
-        ballSpeed[1] = mobility * Ball_speed(Y);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -363,8 +378,8 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
 
     while (1) {
         Ball_display3(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * Ball_speed(X);
-        ballSpeed[1] = mobility * Ball_speed(Y);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -434,8 +449,7 @@ void Ball_display3(int ballLocationX, int ballLocationY){
 }
 
 int set_Mobility(){
-    int temp = 
-    readTEMP();
+    int temp = readTEMP();
     mobility = 1;
     /*
     if ( (-10<temp) && (temp<60) ){
@@ -453,7 +467,8 @@ int set_Mobility(){
 
 void HW_init(){
     init_accel();
-    mobility = set_Mobility();
+    int mobility = set_Mobility();
+    printf("Mobility : %d\n", mobility);
 }
 
 void HW_close(){
@@ -461,32 +476,24 @@ void HW_close(){
 }
 
 int angle_x(){
+    int ANGLE_X;
     int accel_y = read_accel(Y);
     int accel_z = read_accel(Z);
-    return (int)atan(accel_y / accel_z) * (180 / 3.14);
+    if(accel_z == 0){
+        ANGLE_X = 0;
+    }
+    else ANGLE_X = (int)atan(accel_y / accel_z) * (180 / 3.14);
+    return ANGLE_X;
 }
+
 int angle_y(){
+    int ANGLE_Y;
     int accel_x = read_accel(X);
     int accel_y = read_accel(Y);
     int accel_z = read_accel(Z);
-    return (int)atan(accel_x/ sqrt(accel_y*accel_y + accel_z*accel_z)) * (180 / 3.14);
-}
-
-int Ball_speed(char axis){
-    int AXIS, speed;
-    if (axis == 'X') AXIS = 0;
-    else if (axis == 'Y') AXIS = 1;
-    else AXIS = 2;
-    switch (AXIS) {
-    case 0:
-        speed = angle_x() / 180;
-        break;
-    case 1:
-        speed = angle_x() / 180;
-        break;
-    default:
-        break;
+    if(sqrt(accel_y*accel_y + accel_z*accel_z) == 0){
+        ANGLE_Y = 0;
     }
-    return speed;
+    else ANGLE_Y = (int)atan(accel_x/ sqrt(accel_y*accel_y + accel_z*accel_z)) * (180 / 3.14);
+    return ANGLE_Y;
 }
-
