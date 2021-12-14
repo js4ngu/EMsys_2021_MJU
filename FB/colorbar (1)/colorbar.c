@@ -28,26 +28,22 @@ int main (int argc, char **argv)
     printf("Frame buffer Application - ColorBar\n");
     printf("===================================\n");
 
-    if( access(FBDEV_FILE, F_OK) )
-    {
+    if( access(FBDEV_FILE, F_OK) ) {
         printf("%s: access error\n", FBDEV_FILE);
         exit(1);
     }
 
-    if( (fb_fd = open(FBDEV_FILE, O_RDWR)) < 0)
-    {
+    if( (fb_fd = open(FBDEV_FILE, O_RDWR)) < 0) {
         printf("%s: open error\n", FBDEV_FILE);
         exit(1);
     }
 
-    if( ioctl(fb_fd, FBIOGET_VSCREENINFO, &fbvar) )
-    {
+    if( ioctl(fb_fd, FBIOGET_VSCREENINFO, &fbvar) ) {
         printf("%s: ioctl error - FBIOGET_VSCREENINFO \n", FBDEV_FILE);
         exit(1);
     }
 
-    if( ioctl(fb_fd, FBIOGET_FSCREENINFO, &fbfix) )
-    {
+    if( ioctl(fb_fd, FBIOGET_FSCREENINFO, &fbfix) ) {
         printf("%s: ioctl error - FBIOGET_FSCREENINFO \n", FBDEV_FILE);
         exit(1);
     }
@@ -65,17 +61,15 @@ int main (int argc, char **argv)
     mem_size    =   screen_width * screen_height * 4;
     fb_mapped   =   (unsigned char *)mmap(0, mem_size,
                      PROT_READ|PROT_WRITE, MAP_SHARED, fb_fd, 0);
-    if (fb_mapped < 0)
-    {
+
+    if (fb_mapped < 0) {
         printf("mmap error!\n");
         exit(1);
     }
 
-    for(coor_y = 0; coor_y < screen_height; coor_y++)
-    {
+    for(coor_y = 0; coor_y < screen_height; coor_y++) {
         ptr =   (unsigned long *)fb_mapped + screen_width * coor_y;
-        for(coor_x = 0; coor_x < screen_width; coor_x++)
-        {
+        for(coor_x = 0; coor_x < screen_width; coor_x++) {
             *ptr++  =   0x000000;
         }
     }
@@ -83,88 +77,67 @@ int main (int argc, char **argv)
     int offsety2 = screen_height * 4 / 5;
     // color bar
     int offsetx1 = screen_width /7 ;
-    for(coor_y = 0; coor_y < offsety1; coor_y++)
-    {
+    for(coor_y = 0; coor_y < offsety1; coor_y++) {
         ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-        for (coor_x = 0; coor_x < offsetx1; coor_x++)
-        {
+        for (coor_x = 0; coor_x < offsetx1; coor_x++) {
             *ptr++  =   0xFFFFFF;
         }
-        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++)
-        {
+        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++) {
             *ptr++  =   0xFFE146;
         }
-        for (coor_x = (offsetx1*2); coor_x < offsetx1*3; coor_x++)
-        {
+        for (coor_x = (offsetx1*2); coor_x < offsetx1*3; coor_x++) {
             *ptr++  =   0x00D7FF;
         }
-        for (coor_x = (offsetx1*3); coor_x < offsetx1*4; coor_x++)
-        {
+        for (coor_x = (offsetx1*3); coor_x < offsetx1*4; coor_x++) {
             *ptr++  =   0x006400;
         }
-        for (coor_x = (offsetx1*4); coor_x < offsetx1*5; coor_x++)
-        {
+        for (coor_x = (offsetx1*4); coor_x < offsetx1*5; coor_x++) {
             *ptr++  =   0xE65AE6;
         }
-        for (coor_x = (offsetx1*5); coor_x < offsetx1*6; coor_x++)
-        {
+        for (coor_x = (offsetx1*5); coor_x < offsetx1*6; coor_x++) {
             *ptr++  =   0xFF0000;
         }
-        for (coor_x = (offsetx1*6); coor_x < screen_width; coor_x++)
-        {
+        for (coor_x = (offsetx1*6); coor_x < screen_width; coor_x++) {
             *ptr++  =   0x0000FF;
         }
     }
-    for(coor_y = offsety1; coor_y < offsety2; coor_y++)
-    {
+    for(coor_y = offsety1; coor_y < offsety2; coor_y++) {
         ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-        for (coor_x = 0; coor_x < offsetx1; coor_x++)
-        {
+        for (coor_x = 0; coor_x < offsetx1; coor_x++) {
             *ptr++  =   0x0000FF;
         }
-        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++)
-        {
+        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++) {
             *ptr++  =   0x000000;
         }
-        for (coor_x = (offsetx1*2); coor_x < offsetx1*3; coor_x++)
-        {
+        for (coor_x = (offsetx1*2); coor_x < offsetx1*3; coor_x++) {
             *ptr++  =   0xE65AE6;
         }
-        for (coor_x = (offsetx1*3); coor_x < offsetx1*4; coor_x++)
-        {
+        for (coor_x = (offsetx1*3); coor_x < offsetx1*4; coor_x++) {
             *ptr++  =   0x000000;
         }
-        for (coor_x = (offsetx1*4); coor_x < offsetx1*5; coor_x++)
-        {
+        for (coor_x = (offsetx1*4); coor_x < offsetx1*5; coor_x++) {
             *ptr++  =   0x00D7FF;
         }
-        for (coor_x = (offsetx1*5); coor_x < offsetx1*6; coor_x++)
-        {
+        for (coor_x = (offsetx1*5); coor_x < offsetx1*6; coor_x++) {
             *ptr++  =   0x000000;
         }
-        for (coor_x = (offsetx1*6); coor_x < screen_width; coor_x++)
-        {
+        for (coor_x = (offsetx1*6); coor_x < screen_width; coor_x++) {
             *ptr++  =   0xFFFFFF;
         }
     }
     offsetx1 = screen_width/4; 
-    for(coor_y = offsety2; coor_y < screen_height ; coor_y++)
-    {
+    for(coor_y = offsety2; coor_y < screen_height ; coor_y++) {
         ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-        for (coor_x = 0; coor_x < offsetx1; coor_x++)
-        {
+        for (coor_x = 0; coor_x < offsetx1; coor_x++) {
             *ptr++  =   0xA0A0A0;
         }
-        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++)
-        {
+        for (coor_x = offsetx1; coor_x < offsetx1*2; coor_x++) {
             *ptr++  =   0xFFFFFF;
         }
-        for (coor_x = offsetx1*2; coor_x < offsetx1*3; coor_x++)
-        {
+        for (coor_x = offsetx1*2; coor_x < offsetx1*3; coor_x++) {
             *ptr++  =   0x14148C;
         }
-        for (coor_x = offsetx1*3; coor_x < screen_width; coor_x++)
-        {
+        for (coor_x = offsetx1*3; coor_x < screen_width; coor_x++) {
             *ptr++  =   0x000000;
         }
     }
