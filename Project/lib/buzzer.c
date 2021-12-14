@@ -86,9 +86,8 @@ void buzzerExit(void)
 
 void buzzerPlaySong(int scale) // C:0, C#:1, ... , A:9, A#:10, B:11
 {
+    setFrequency(musicScale[scale]);
     buzzerEnable(1);
-    setFrequency(scale);
-    
 }
 
 void buzzerStopSong(void)
