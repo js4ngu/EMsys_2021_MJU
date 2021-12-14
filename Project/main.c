@@ -47,8 +47,8 @@ void Ball_display2(int ballLocationX, int ballLocationY);
 void Ball_display3(int ballLocationX, int ballLocationY);
 
 int set_Mobility();
-int angle_x(int accel_y ,int accel_z);
-int angle_y(int accel_x, int accel_y ,int accel_z);
+int angle_x(void);
+int angle_y(void);
 
 int ballLocation[2] = {0,0};
 int status = MENU;
@@ -145,7 +145,7 @@ void Level1(int stage){
         default:
             break;
         }
-        break;
+
 }
 
 void Level2(int stage){
@@ -242,7 +242,7 @@ void Level3(int stage){
         default:
             break;
         }
-        break;
+        
 }
 
 void Level1_Playgame(int destination_x, int destination_y,int nextStage){
@@ -444,13 +444,13 @@ void HW_close(){
 int angle_x(){
     int accel_y = read_accel(Y);
     int accel_z = read_accel(Z);
-    return atan(accel_y / accel_z) * (180 / 3.14);
+    return (int)atan(accel_y / accel_z) * (180 / 3.14);
 }
 int angle_y(){
     int accel_x = read_accel(X);
     int accel_y = read_accel(Y);
     int accel_z = read_accel(Z);
-    return atan(accel_x/ sqrt(accel_y*accel_y + accel_z*accel_z)) * (180 / 3.14);
+    return (int)atan(accel_x/ sqrt(accel_y*accel_y + accel_z*accel_z)) * (180 / 3.14);
 }
 
 int Ball_speed(char axis){
@@ -460,10 +460,10 @@ int Ball_speed(char axis){
     else AXIS = 2;
     switch (AXIS) {
     case 0:
-        speed = angle_x / 180;
+        speed = angle_x() / 180;
         break;
     case 1:
-        speed = angle_x / 180;
+        speed = angle_x() / 180;
         break;
     default:
         break;
