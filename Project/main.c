@@ -1,10 +1,3 @@
-/*
-임의로 가정하고 사용한 함수명 목록
-readTemp();
-readGyro_x();
-readGyro_y();
-*/
-
 #define MENU 0
 #define LEVEL1 1
 #define LEVEL2 2
@@ -428,5 +421,3 @@ int set_Mobility(){
     else;
     return mobility;
 }
-
-//Pthread 이용해서 ball location 계속 변경하기
