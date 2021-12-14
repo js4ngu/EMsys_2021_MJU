@@ -16,9 +16,9 @@
 #define START 13
 #define EXIT 14
 
-#define WIDTH 0
-#define HIGH 0
-#define DES_SENSTIVE 30
+#define WIDTH 51
+#define HIGH 30
+#define DES_SENSTIVE 60
 
 const int DESTINATION_S1 [8][2]  = {{0,0},
                                     {0,0}};
@@ -49,12 +49,13 @@ void Ball_display3(int ballLocationX, int ballLocationY);
 int set_Mobility();
 int angle_x(void);
 int angle_y(void);
+int Ball_speed(char axis);
 
 int ballLocation[2] = {0,0};
 int status = MENU;
 int stage = STAGE1;
 int key_value = 0;
-int mobility;
+int mobility = 0;
 
 void main(){
     HW_init();
@@ -250,13 +251,13 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2];
+    int deadLine_Flag0[2] = 0;
     int result = 2;
 
     while (1) {
         Ball_display1(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * readGyro_x();
-        ballSpeed[1] = mobility * readGyro_y();
+        ballSpeed[0] = mobility * Ball_speed(X);
+        ballSpeed[1] = mobility * Ball_speed(Y);
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -295,14 +296,14 @@ void Level2_Playgame(int destination_x, int destination_y, int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2];
-    int deadLine_Flag1[2];
+    int deadLine_Flag0[2] = 0;
+    int deadLine_Flag1[2] = 0;
     int result = 2;
 
     while (1) {
         Ball_display2(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * readGyro_x();
-        ballSpeed[1] = mobility * readGyro_y();
+        ballSpeed[0] = mobility * Ball_speed(X);
+        ballSpeed[1] = mobility * Ball_speed(Y);
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -347,15 +348,15 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2];
-    int deadLine_Flag1[2];
-    int deadLine_Flag2[2];
+    int deadLine_Flag0[2] = 0;
+    int deadLine_Flag1[2] = 0;
+    int deadLine_Flag2[2] = 0;
     int result = 2;
 
     while (1) {
         Ball_display3(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * readGyro_x();
-        ballSpeed[1] = mobility * readGyro_y();
+        ballSpeed[0] = mobility * Ball_speed(X);
+        ballSpeed[1] = mobility * Ball_speed(Y);
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
         ballLocation[1] = ballLocation[1] + ballSpeed[1];
         
@@ -404,22 +405,30 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
 
 void Ball_display1(int ballLocationX, int ballLocationY){
     //BMP파일 로드
+    //HURDLE_0 이랑 or 연산
     //boll Location이랑 or 연산
     //TFT에 뿌려주기
 }
 void Ball_display2(int ballLocationX, int ballLocationY){
     //BMP파일 로드
+    //HURDLE_0 이랑 or 연산
+    //HURDLE_1 이랑 or 연산
     //boll Location이랑 or 연산
     //TFT에 뿌려주기
 }
 void Ball_display3(int ballLocationX, int ballLocationY){
     //BMP파일 로드
+    //HURDLE_0 이랑 or 연산
+    //HURDLE_1 이랑 or 연산
+    //HURDLE_2 이랑 or 연산
     //boll Location이랑 or 연산
     //TFT에 뿌려주기
 }
 
 int set_Mobility(){
-    int temp = (int)readTemp();
+    int temp = readTemp();
+    mobility = 1;
+    /*
     if ( (-10<temp) && (temp<60) ){
         mobility = temp + 10;
     }
@@ -429,12 +438,13 @@ int set_Mobility(){
     else if(60 < temp){
         mobility = 60;
     }
-    else;
+    else;*/
     return mobility;
 }
 
 void HW_init(){
     init_accel();
+    mobility = set_Mobility();
 }
 
 void HW_close(){
@@ -470,3 +480,4 @@ int Ball_speed(char axis){
     }
     return speed;
 }
+
