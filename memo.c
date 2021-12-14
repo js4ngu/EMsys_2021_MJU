@@ -187,3 +187,94 @@ void fb_write2(int x1, int y1, int x2, int y2, char color) {
 		}
     }
 }
+
+
+
+/*---------------------------------------------------------------------*/
+/*-----------------------김지호 보시오 ---------------------------------*/
+// Ball, DES
+#define DES_SIZE 30
+#define WIDTH 51
+#define HIGH 30
+
+void fb_write_stage1(int xBall, int yBall, int xDes, int yDes) {
+	int coor_Ball [2] = {xBall, yBall};
+    int coor_Des [2] = {xDes, yDes};
+    
+    //DES DP
+	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0x0000FF;
+		}
+    }
+
+    //BALL DP
+	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+}
+
+void fb_write_stage2(int xBall, int yBall, int xDes, int yDes, int HURDLE_0_x, int HURDLE_0_y) {
+	int coor_Ball [2] = {xBall, yBall};
+    int coor_Des  [2] = {xDes, yDes};
+    int HURDLE_0  [2] = {HURDLE_0_x, HURDLE_0_y};
+    //DES DP
+	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0x0000FF;
+		}
+    }
+
+    //HURDLE_0 DP
+	for(int coor_y = HURDLE_0[1]; coor_y < HURDLE_0[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = HURDLE_0[0]; coor_x < HURDLE_0[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+
+    //BALL DP
+	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+}
+
+void fb_write_stage2(int xBall, int yBall, int xDes, int yDes, int HURDLE_0_x, int HURDLE_0_y,  int HURDLE_1_x, int HURDLE_1_y) {
+	int coor_Ball [2] = {xBall, yBall};
+    int coor_Des  [2] = {xDes, yDes};
+    int HURDLE_0  [2] = {HURDLE_0_x, HURDLE_0_y};
+    int HURDLE_1  [2] = {HURDLE_1_x, HURDLE_1_y};
+
+    //DES DP
+	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0x0000FF;
+		}
+    }
+
+    //HURDLE_0 DP
+	for(int coor_y = HURDLE_0[1]; coor_y < HURDLE_0[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = HURDLE_0[0]; coor_x < HURDLE_0[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+
+    //HURDLE_1 DP
+	for(int coor_y = HURDLE_1[1]; coor_y < HURDLE_1[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = HURDLE_1[0]; coor_x < HURDLE_1[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+
+    //BALL DP
+	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
+		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
+            *pfbmap++ = 0xFFFFFF;
+		}
+    }
+}
+/*-----------------------여기까지 보면됨---------------------------------*/
+/*---------------------------------------------------------------------*/

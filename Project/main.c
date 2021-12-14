@@ -38,7 +38,6 @@ const int DESTINATION_S3 [8][2]  = {{0,0},
 
 const int HURDLE_0[2] = {0,}; //왼쪽 위 꼭지점 좌표 hurdle_0[0] : x, hurdle_0[1] : y
 const int HURDLE_1[2] = {0,};
-const int HURDLE_2[2] = {0,};
 
 void HW_init();
 void HW_close();
@@ -273,11 +272,47 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2] = {0,0};
     int result = 2;
 
     while (1) {
         Ball_display1(ballLocation[0], ballLocation[1]);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
+        ballLocation[0] = ballLocation[0] + ballSpeed[0];
+        ballLocation[1] = ballLocation[1] + ballSpeed[1];
+        
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
+
+        if (des_Flag[0] && des_Flag[1]) {
+            result = 1;
+            break;
+        }
+
+        Ball_display1(ballLocation[0], ballLocation[1]);
+    }
+    if(nextStage == STAGE1) {
+        if (result == 1) {
+            stage = nextStage;
+            status = LEVEL2;
+        }
+        else if (result == 0) status = FAIL;
+    }
+    else {
+        if (result == 1) stage = nextStage;
+    }
+}
+
+void Level2_Playgame(int destination_x, int destination_y, int nextStage){
+    int destination[2] = {destination_x,destination_y};
+    int ballSpeed[2];
+
+    int des_Flag[2] = {0,0};
+    int deadLine_Flag0[2] = {0,0};
+    int result = 2;
+
+    while (1) {
+        Ball_display2(ballLocation[0], ballLocation[1]);
         ballSpeed[0] = mobility * angle_x();
         ballSpeed[1] = mobility * angle_y();
         ballLocation[0] = ballLocation[0] + ballSpeed[0];
@@ -296,59 +331,6 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
         }
         if (deadLine_Flag0[0] && deadLine_Flag0[1]) {
             result = 0;
-            break;
-        }
-        Ball_display1(ballLocation[0], ballLocation[1]);
-    }
-    if(nextStage == STAGE1) {
-        if (result == 1) {
-            stage = nextStage;
-            status = LEVEL2;
-        }
-        else if (result == 0) status = FAIL;
-    }
-    else {
-        if (result == 1) stage = nextStage;
-        else if (result == 0) status = FAIL;
-    }
-
-}
-
-void Level2_Playgame(int destination_x, int destination_y, int nextStage){
-    int destination[2] = {destination_x,destination_y};
-    int ballSpeed[2];
-
-    int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2] = {0,0};
-    int deadLine_Flag1[2] = {0,0};
-    int result = 2;
-
-    while (1) {
-        Ball_display2(ballLocation[0], ballLocation[1]);
-        ballSpeed[0] = mobility * angle_x();
-        ballSpeed[1] = mobility * angle_y();
-        ballLocation[0] = ballLocation[0] + ballSpeed[0];
-        ballLocation[1] = ballLocation[1] + ballSpeed[1];
-        
-        //장애물 검출 알고리즘 입력
-        if (( HURDLE_0[0] - WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_0[0] + WIDTH )) deadLine_Flag0[0] = 1;
-        if (( HURDLE_0[1] - HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_0[1] + HIGH )) deadLine_Flag0[1] = 1;
-        if (( HURDLE_1[0] - WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_1[0] + WIDTH )) deadLine_Flag1[0] = 1;
-        if (( HURDLE_1[1] - HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_1[1] + HIGH )) deadLine_Flag1[1] = 1;
-
-        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
-        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
-
-        if (des_Flag[0] && des_Flag[1]) {
-            result = 1;
-            break;
-        }
-        if (deadLine_Flag0[0] && deadLine_Flag0[1]) {
-            result = 1;
-            break;
-        }
-        if (deadLine_Flag1[0] && deadLine_Flag1[1]) {
-            result = 1;
             break;
         }
         Ball_display2(ballLocation[0], ballLocation[1]);
@@ -373,7 +355,6 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
     int des_Flag[2] = {0,0};
     int deadLine_Flag0[2] = {0,0};
     int deadLine_Flag1[2] = {0,0};
-    int deadLine_Flag2[2] = {0,0};
     int result = 2;
 
     while (1) {
@@ -388,8 +369,6 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
         if (( HURDLE_0[1] - HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_0[1] + HIGH )) deadLine_Flag0[1] = 1;
         if (( HURDLE_1[0] - WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_1[0] + WIDTH )) deadLine_Flag1[0] = 1;
         if (( HURDLE_1[1] - HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_1[1] + HIGH )) deadLine_Flag1[1] = 1;
-        if (( HURDLE_2[0] - WIDTH < ballLocation[0] ) && ( ballLocation[1] < HURDLE_2[0] + WIDTH )) deadLine_Flag2[1] = 1;
-        if (( HURDLE_2[1] - HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_2[1] + HIGH )) deadLine_Flag2[1] = 1;
 
         if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
         if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
@@ -403,10 +382,6 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
             break;
         }
         if (deadLine_Flag1[0] && deadLine_Flag1[1]) {
-            result = 0;
-            break;
-        }
-        if (deadLine_Flag2[0] && deadLine_Flag2[1]) {
             result = 0;
             break;
         }
