@@ -1,4 +1,12 @@
 #include <math.h>
+#include "./lib/accelMagGyro.h"
+#include "./lib/button.h"
+#include "./lib/buzzer.h"
+#include "./lib/colorLED.h"
+#include "./lib/fnd.h"
+#include "./lib/led.h"
+#include "./lib/temp.h"
+#include "./lib/textLCD.h"
 
 #define MENU 0
 #define LEVEL1 1
@@ -251,7 +259,7 @@ void Level1_Playgame(int destination_x, int destination_y,int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2] = 0;
+    int deadLine_Flag0[2] = {0,0};
     int result = 2;
 
     while (1) {
@@ -296,8 +304,8 @@ void Level2_Playgame(int destination_x, int destination_y, int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2] = 0;
-    int deadLine_Flag1[2] = 0;
+    int deadLine_Flag0[2] = {0,0};
+    int deadLine_Flag1[2] = {0,0};
     int result = 2;
 
     while (1) {
@@ -348,9 +356,9 @@ void Level3_Playgame(int destination_x, int destination_y, int nextStage){
     int ballSpeed[2];
 
     int des_Flag[2] = {0,0};
-    int deadLine_Flag0[2] = 0;
-    int deadLine_Flag1[2] = 0;
-    int deadLine_Flag2[2] = 0;
+    int deadLine_Flag0[2] = {0,0};
+    int deadLine_Flag1[2] = {0,0};
+    int deadLine_Flag2[2] = {0,0};
     int result = 2;
 
     while (1) {
