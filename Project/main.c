@@ -434,7 +434,8 @@ void Ball_display3(int ballLocationX, int ballLocationY){
 }
 
 int set_Mobility(){
-    int temp = readTemp();
+    int temp = 
+    readTEMP();
     mobility = 1;
     /*
     if ( (-10<temp) && (temp<60) ){
