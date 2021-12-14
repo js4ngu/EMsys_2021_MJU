@@ -14,7 +14,7 @@
 #include "colorLED.h"
 
 
-#define MAX_SCALE_STEP		7
+#define MAX_SCALE_STEP_LED		7
 
 #define PWM_BASE_SYS_PATH       "/sys/class/pwm/pwmchip"
 
