@@ -7,9 +7,15 @@
 #include <sys/ioctl.h>  // for ioctl
 #include <sys/mman.h>
 #include <linux/fb.h>   // for fb_var_screeninfo, FBIOGET_VSCREENINFO
+#include <stdlib.h> // for exit
 
 #define FBDEV_FILE_0 "/dev/fb0"
 #define FBDEV_FILE_1 "/dev/fb1"
+
+#define DES_SIZE 500
+#define BALL_SIZE 100
+#define WIDTH 51
+#define HIGH 30
 
 int main (int argc, char **argv)
 {
@@ -108,7 +114,33 @@ int main (int argc, char **argv)
         printf("mmap error!\n");
         exit(1);
     }
+    int coor_Des[2] = {500,300};
+    int coor_Ball[2] = {800,500};
 
+    for(coor_y = 0; coor_y < screen_height; coor_y++) {
+        ptr0 =   (unsigned long *)fb_mapped0 + screen_width * coor_y;
+        for(coor_x = 0; coor_x < screen_width; coor_x++) {
+            *ptr0++  =   0x000000;
+        }
+    }/*
+    //DES DP
+    for (size_t i = 0; i < coor_Des[2]; i++) {
+        for(int FLASHING_y = 0; FLASHING_y < screen_height; FLASHING_y++) {
+            ptr0 =   (unsigned long *)fb_mapped0 + screen_width * coor_y;
+            for(int FLASHING_x = 0; FLASHING_x < screen_width; FLASHING_x++) {
+                *ptr0++  =   0x000000;
+            }
+        }
+
+        for(int coor_y = i - DES_SIZE; coor_y < i; coor_y++) {
+            ptr0 =   (unsigned long *)fb_mapped0 + screen_width * coor_y;
+            for (int coor_x = coor_Des[0] - DES_SIZE; coor_x < coor_Des[0]; coor_x++) {
+                *ptr0++ = 0xFFFFFF;
+            }
+        }
+        usleep(10000);
+    }*/
+    /*
     for(coor_y = 0; coor_y < screen_height/2; coor_y++)
     {
         ptr0 =   (unsigned long *)fb_mapped0 + screen_width * coor_y;
@@ -126,7 +158,7 @@ int main (int argc, char **argv)
             *ptr1++  =   0x0000FF;
         }
     }
-
+*/
     /*
     int offsety1 = screen_height * 3 / 5;
     int offsety2 = screen_height * 4 / 5;

@@ -1,22 +1,35 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
- 
 # GNU Make 4.1
+ 
 # Built for x86_64-pc-linux-gnu
+ 
 # Copyright (C) 1988-2014 Free Software Foundation, Inc.
+ 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ 
 # This is free software: you are free to change and redistribute it.
+ 
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sun Nov  7 21:15:49 2021
+ 
+# Make data base, printed on Wed Dec 15 16:21:22 2021
+ 
 
 # Variables
+ 
 
+ 
 # automatic
+ 
 <D = $(patsubst %/,%,$(dir $<))
+ 
 # automatic
+ 
 ?F = $(notdir $?)
+ 
 # environment
+ 
 DESKTOP_SESSION = cinnamon
 # default
 .SHELLFLAGS := -c
@@ -33,21 +46,21 @@ GDMSESSION = cinnamon
 # environment
 XMODIFIERS = @im=nimf
 # makefile
-CURDIR := /home/jongsangyoo/EMsys/EMsys_2021
+CURDIR := /home/jongsangyoo/EMsys/Github/EMsys_2021_MJU
 # makefile
 SHELL = /bin/sh
 # environment
 GDM_LANG = ko_KR
 # environment
-VSCODE_NLS_CONFIG = {"locale":"ko","availableLanguages":{},"_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"ko","availableLanguages":{"*":"ko"},"_languagePackId":"278bf5b45b5f0f0fb6fd8dbc7a6d9a7c.ko","_translationsConfigFile":"/home/jongsangyoo/.config/Code/clp/278bf5b45b5f0f0fb6fd8dbc7a6d9a7c.ko/tcf.json","_cacheRoot":"/home/jongsangyoo/.config/Code/clp/278bf5b45b5f0f0fb6fd8dbc7a6d9a7c.ko","_resolvedLanguagePackCoreLocation":"/home/jongsangyoo/.config/Code/clp/278bf5b45b5f0f0fb6fd8dbc7a6d9a7c.ko/8795a9889db74563ddd43eb0a897a2384129a619","_corruptedFile":"/home/jongsangyoo/.config/Code/clp/278bf5b45b5f0f0fb6fd8dbc7a6d9a7c.ko/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/share/code/code
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-cinnamon:/etc/xdg
 # environment
 GTK_OVERLAY_SCROLLING = 1
-# makefile (from 'makefile', line 1)
-MAKEFILE_LIST :=  makefile
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
 # automatic
 @F = $(notdir $@)
 # environment
@@ -65,7 +78,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 DEBEMAIL = hamonikr-packages@googlegroups.com
 # environment
-VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211107T211543
+VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211215T160709
 # environment
 CLUTTER_IM_MODULE = xim
 # environment
@@ -83,11 +96,13 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-SESSION_MANAGER = local/jongsangyoo-VM:@/tmp/.ICE-unix/6860,unix/jongsangyoo-VM:/tmp/.ICE-unix/6860
+SESSION_MANAGER = local/jongsangyoo-VM:@/tmp/.ICE-unix/1217,unix/jongsangyoo-VM:/tmp/.ICE-unix/1217
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 DEBFULLNAME = HamoniKR Team
+# makefile (from 'Makefile', line 2)
+AR = arm-linux-gnueabi-ar
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -95,7 +110,9 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
+ 
 XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/jongsangyoo
+ 
 # environment
 LS_COLORS = 
 # environment
@@ -103,7 +120,7 @@ XDG_SESSION_DESKTOP = cinnamon
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 14372
+GIO_LAUNCHED_DESKTOP_FILE_PID = 1756
 # automatic
 %F = $(notdir $%)
 # environment
@@ -111,13 +128,13 @@ DISPLAY = :0
 # environment
 GTK_IM_MODULE = nimf
 # environment
-PWD = /home/jongsangyoo/EMsys/EMsys_2021
+PWD = /home/jongsangyoo/EMsys/Github/EMsys_2021_MJU
 # environment
 QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 6984
+SSH_AGENT_PID = 1339
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
@@ -152,8 +169,10 @@ MAKECMDGOALS := all
 QT_IM_MODULE = nimf
 # environment
 SHLVL = 1
+# makefile (from 'Makefile', line 1)
+CC = arm-linux-gnueabi-gcc
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-00b638cb-22a7-4211-a600-ce4c14bbd2a5.sock
+VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-4c1800d7-a770-4c60-b852-6c4f9ba228ec.sock
 # environment
 XDG_SESSION_ID = c2
 # environment
@@ -163,7 +182,7 @@ USER = jongsangyoo
 # environment
 LC_MONETARY = ko_KR.UTF-8
 # makefile
-.DEFAULT_GOAL := final.elf
+.DEFAULT_GOAL := all
 # environment
 XDG_CURRENT_DESKTOP = X-Cinnamon
 # environment
@@ -235,9 +254,9 @@ LC_ADDRESS = ko_KR.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 14372
+VSCODE_PID = 1756
 # variable set hash-table stats:
-# Load=112/1024=11%, Rehash=0, Collisions=14/137=10%
+# Load=114/1024=11%, Rehash=0, Collisions=16/143=11%
 
 # Pattern-specific Variable Values
 
@@ -245,9 +264,9 @@ VSCODE_PID = 14372
 
 # Directories
 
-# . (device 2049, inode 1362820): 14 files, no impossibilities.
+# . (device 2049, inode 1369083): 11 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -255,65 +274,30 @@ VSCODE_PID = 14372
 
 # Files
 
-# Not a target:
-2.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-2.o: 2.c myProject.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'makefile', line 8):
-	gcc -c 2.c -o 2.o
-
-# Not a target:
-all:
+all: memo.out
 #  Command line target.
-#  Implicit rule search has been done.
+#  Implicit rule search has not been done.
 #  File does not exist.
-#  File has not been updated.
-
-1.o: 1.c myProject.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'makefile', line 5):
-	gcc -c 1.c -o 1.o
- 
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+#  recipe to execute (from 'Makefile', line 5):
+	scp *.out ecube@210.99.114.80:/home/ecube/EMsys
+	
 
 # Not a target:
-main.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-myProject.h:
+.SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-makefile:
+Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-11-07 20:33:32.307722
+#  Last modified 2021-12-15 06:00:32.628088403
 #  File has been updated.
 #  Successfully updated.
-
-# Not a target:
-1.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-final.elf: 1.o 2.o main.o myProject.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'makefile', line 2):
-	gcc 1.o 2.o main.o -o final.elf
 
 # Not a target:
 .DEFAULT:
@@ -325,30 +309,58 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'makefile', line 14):
-	rm -rf final.elf 1.o 2.o main.o
+#  recipe to execute (from 'Makefile', line 11):
+	rm -f *.o *.a *.out
+	rm -f $(TARGET)
 
-main.o: main.c myProject.h
+memo.out: memo.c
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'makefile', line 11):
-	gcc -c main.c -o main.o
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := memo.out
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := memo.c
+# automatic
+# | := 
+# automatic
+# < := memo.c
+# automatic
+# ^ := memo.c
+# automatic
+# ? := memo.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  recipe to execute (from 'Makefile', line 8):
+	$(CC) memo.c -o memo.out
+
+# Not a target:
+memo.c:
+#  Implicit rule search has been done.
+#  Last modified 2021-12-15 06:22:01.048088403
+#  File has been updated.
+#  Successfully updated.
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=5/36=14%
+# Load=7/1024=1%, Rehash=0, Collisions=0/22=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 20 / storage = 151 B / avg = 7 B
-# current buf: size = 8162 B / used = 151 B / count = 20 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 18 / storage = 139 B / avg = 7 B
+# current buf: size = 8162 B / used = 139 B / count = 18 / avg = 7 B
 
-# strcache performance: lookups = 43 / hit rate = 53%
+# strcache performance: lookups = 29 / hit rate = 37%
 # hash-table stats:
-# Load=20/8192=0%, Rehash=0, Collisions=7/43=16%
-# Finished Make data base on Sun Nov  7 21:15:49 2021
+# Load=18/8192=0%, Rehash=0, Collisions=1/29=3%
+# Finished Make data base on Wed Dec 15 16:21:22 2021
 
  
