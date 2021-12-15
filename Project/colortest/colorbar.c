@@ -82,24 +82,24 @@ int main (int argc, char **argv)
         for (i = 100; i < 300; i++) {
             int y1 = i;
             int x1 = i + 100;
-            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
-            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
-            DES(200,200, ptr, fb_mapped, screen_width, screen_height);
-            Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);
+            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height); //R
+            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height); //G
+            DES(200,200, ptr, fb_mapped, screen_width, screen_height);      //B
+            Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);    //W
         }
         for (i = 400; i < 800; i++) {
             int x1 = i;
-            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
-            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
-            DES(200,200, ptr, fb_mapped, screen_width, screen_height);
-            Ball_DP(x1,300, ptr, fb_mapped, screen_width, screen_height);
+            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height); //R
+            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height); //G
+            DES(200,200, ptr, fb_mapped, screen_width, screen_height);      //B
+            Ball_DP(x1,300, ptr, fb_mapped, screen_width, screen_height);   //W
         }
         for (i = 300; i < 600; i++) {
             int y1 = i;
-            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
-            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
-            DES(200,200, ptr, fb_mapped, screen_width, screen_height);
-            Ball_DP(800,y1, ptr, fb_mapped, screen_width, screen_height);
+            hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height); //R
+            hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height); //G
+            DES(200,200, ptr, fb_mapped, screen_width, screen_height);      //B
+            Ball_DP(800,y1, ptr, fb_mapped, screen_width, screen_height);   //W
         }
         usleep(1);
     }
