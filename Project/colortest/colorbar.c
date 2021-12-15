@@ -15,6 +15,8 @@
 void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
 void Back_ground(int COLOR, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
 void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
+void hurdle_1(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
+
 int main (int argc, char **argv)
 {
     int screen_width;
@@ -78,17 +80,20 @@ int main (int argc, char **argv)
     for (int i = 100; i < 300; i++) {
         int y1 = i;
         int x1 = i + 100;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);
     }
     for (int i = 400; i < 800; i++) {
         int x1 = i;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(x1,300, ptr, fb_mapped, screen_width, screen_height);
     }
     for (int i = 300; i < 600; i++) {
         int y1 = i;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_0(300,400, ptr, fb_mapped, screen_width, screen_height);
+        hurdle_1(400,100, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(800,y1, ptr, fb_mapped, screen_width, screen_height);
     }
     //카메라 상에서는 혜성처럼 꼬리가 생김. 실제로는 어떻게 작동하는지 검증이 필요함.
@@ -148,8 +153,8 @@ void Ball_DP(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int s
 }
 
 void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
-    int size_x = 300;
-    int size_y = 300;
+    int size_x = 200;
+    int size_y = 100;
     int X2 = X1 + size_x;
     int Y2 = Y1 - size_y;
     int coor_y, coor_x;
@@ -160,7 +165,40 @@ void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int 
             *ptr++  =   0x000000;
         }
         for (coor_x = X1; coor_x < X2; coor_x++) {
-            *ptr++  =   0xFFFFFF;
+            *ptr++  =   0x0000FF;
+        }
+        for (coor_x = X2; coor_x < screen_width; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+    }
+    for(coor_y = 0; coor_y < Y2; coor_y++) {
+        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+        for (coor_x = 0; coor_x < X1; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X1; coor_x < X2; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X2; coor_x < screen_width; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+    }
+}
+
+void hurdle_1(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
+    int size_x = 300;
+    int size_y = 100;
+    int X2 = X1 + size_x;
+    int Y2 = Y1 - size_y;
+    int coor_y, coor_x;
+
+    for(coor_y = 0; coor_y < Y1; coor_y++) {
+        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+        for (coor_x = 0; coor_x < X1; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X1; coor_x < X2; coor_x++) {
+            *ptr++  =   0x0000FF;
         }
         for (coor_x = X2; coor_x < screen_width; coor_x++) {
             *ptr++  =   0x000000;
