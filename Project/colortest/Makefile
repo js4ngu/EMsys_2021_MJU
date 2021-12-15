@@ -10,3 +10,4 @@ colorbar.out: colorbar.c
 clean: 
 	rm -f *.o *.a *.out
 	rm -f $(TARGET)
+
