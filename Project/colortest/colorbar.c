@@ -13,7 +13,8 @@
 #define HIGH 30
 
 void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
-
+void Back_ground(int COLOR, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
+void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
 int main (int argc, char **argv)
 {
     int screen_width;
@@ -73,32 +74,36 @@ int main (int argc, char **argv)
         exit(1);
     }
 
-    for(coor_y = 0; coor_y < screen_height; coor_y++) {
-        ptr =   (unsigned long *)fb_mapped + screen_width * coor_y;
-        for(coor_x = 0; coor_x < screen_width; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-    }
-
+    Back_ground(0x000000, ptr, fb_mapped, screen_width, screen_height);
     for (int i = 100; i < 1024; i++) {
-        int x1, y1 = i; 
+        int y1 = i;
+        int x1 = i + 100;
+        hurdle_0(500,500, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);
+
     }
     
     munmap( fb_mapped, mem_size_x);
     close( fb_fd);
     return 0;
 }
+void Back_ground(int COLOR, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
+    int coor_y, coor_x;
+    for(coor_y = 0; coor_y < screen_height; coor_y++) {
+        ptr =   (unsigned long *)fb_mapped + screen_width * coor_y;
+        for(coor_x = 0; coor_x < screen_width; coor_x++) {
+            *ptr++  =  COLOR;
+        }
+    }
+}
 
-void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height) {
+void Ball_DP(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height) {
     int size_x = 100;
     int size_y = 100;
-    int X1 = x1;
     int X2 = X1 + size_x;
-    int Y1 = y1;
     int Y2 = Y1 - size_y;
     int coor_y, coor_x;
-    for (int i = 0; i < 1024; i++) { //x
+    for (int i = 0; i < 1024; i++) { // 굳이 1024? 해야함? 실험 필요함.
         for(coor_y = 0; coor_y < Y1; coor_y++) {
             ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
             for (coor_x = 0; coor_x < X1; coor_x++) {
@@ -127,6 +132,43 @@ void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int s
         X1++;
         X2 = X1 + size_x;
         Y2 = Y1 - size_y;
-        usleep(30000);
+        usleep(10000);
     }
+}
+
+void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
+    int size_x = 300;
+    int size_y = 300;
+    int X2 = X1 + size_x;
+    int Y2 = Y1 - size_y;
+    int coor_y, coor_x;
+
+    for(coor_y = 0; coor_y < Y1; coor_y++) {
+        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+        for (coor_x = 0; coor_x < X1; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X1; coor_x < X2; coor_x++) {
+            *ptr++  =   0xFFFFFF;
+        }
+        for (coor_x = X2; coor_x < screen_width; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+    }
+    for(coor_y = 0; coor_y < Y2; coor_y++) {
+        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+        for (coor_x = 0; coor_x < X1; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X1; coor_x < X2; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+        for (coor_x = X2; coor_x < screen_width; coor_x++) {
+            *ptr++  =   0x000000;
+        }
+    }
+    Y1++;
+    X1++;
+    X2 = X1 + size_x;
+    Y2 = Y1 - size_y;
 }
