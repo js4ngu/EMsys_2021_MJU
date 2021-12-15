@@ -91,6 +91,7 @@ int main (int argc, char **argv)
         hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(800,y1, ptr, fb_mapped, screen_width, screen_height);
     }
+    //카메라 상에서는 혜성처럼 꼬리가 생김. 실제로는 어떻게 작동하는지 검증이 필요함.
     munmap( fb_mapped, mem_size_x);
     close( fb_fd);
     return 0;
