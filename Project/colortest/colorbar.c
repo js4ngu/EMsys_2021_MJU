@@ -12,6 +12,8 @@
 #define WIDTH 51
 #define HIGH 30
 
+void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
+
 int main (int argc, char **argv)
 {
     int screen_width;
@@ -24,7 +26,7 @@ int main (int argc, char **argv)
     struct  fb_fix_screeninfo fbfix;
     unsigned char   *fb_mapped;
     int mem_size_x;
-    unsigned long   *ptr;
+    unsigned long *ptr;
     int coor_y;
     int coor_x;
 
@@ -77,42 +79,54 @@ int main (int argc, char **argv)
             *ptr++  =   0x000000;
         }
     }
-    // color bar
-    int offsety1 = screen_height * 1 / 5;
-    int offsetx1 = screen_width  * 1 / 5;
-    int size_x = 50;
-    int size_y = 3;
-    for (int i = 1; i < 5; i++) {
-        for (int j = 1; j < 5; j++) {
-            for(coor_y = (offsety1)*(i-1); coor_y < (offsety1)*(i); coor_y++) {
-                ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-                for (coor_x = 0; coor_x < offsetx1*(size_x+j); coor_x++) {
-                    *ptr++  =   0x000000;
-                }
-                for (coor_x = offsetx1*(size_x+j); coor_x < offsetx1*(size_x+(j+1)); coor_x++) {
-                    *ptr++  =   0x000000;
-                }
-                for (coor_x = offsetx1*(size_x+(j+1)); coor_x < screen_width; coor_x++) {
-                    *ptr++  =   0x000000;
-                }
-            }
-            for(coor_y = (offsety1)*i; coor_y < (offsety1)*(i+1); coor_y++) {
-                ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-                for (coor_x = 0; coor_x < offsetx1*(size_y+j); coor_x++) {
-                    *ptr++  =   0x000000;
-                }
-                for (coor_x = offsetx1*(size_y+j); coor_x < offsetx1*(size_y+(j+1)); coor_x++) {
-                    *ptr++  =   0xFFFFFF;
-                }
-                for (coor_x = offsetx1*(size_y+(j+1)); coor_x < screen_width; coor_x++) {
-                    *ptr++  =   0x000000;
-                }
-            }
-            usleep(300000);
-        }
-    }
 
+    for (int i = 100; i < 1024; i++) {
+        int x1, y1 = i; 
+        Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);
+    }
+    
     munmap( fb_mapped, mem_size_x);
     close( fb_fd);
     return 0;
+}
+
+void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height) {
+    int size_x = 100;
+    int size_y = 100;
+    int X1 = x1;
+    int X2 = X1 + size_x;
+    int Y1 = y1;
+    int Y2 = Y1 - size_y;
+    int coor_y, coor_x;
+    for (int i = 0; i < 1024; i++) { //x
+        for(coor_y = 0; coor_y < Y1; coor_y++) {
+            ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+            for (coor_x = 0; coor_x < X1; coor_x++) {
+                *ptr++  =   0x000000;
+            }
+            for (coor_x = X1; coor_x < X2; coor_x++) {
+                *ptr++  =   0xFFFFFF;
+            }
+            for (coor_x = X2; coor_x < screen_width; coor_x++) {
+                *ptr++  =   0x000000;
+            }
+        }
+        for(coor_y = 0; coor_y < Y2; coor_y++) {
+            ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
+            for (coor_x = 0; coor_x < X1; coor_x++) {
+                *ptr++  =   0x000000;
+            }
+            for (coor_x = X1; coor_x < X2; coor_x++) {
+                *ptr++  =   0x000000;
+            }
+            for (coor_x = X2; coor_x < screen_width; coor_x++) {
+                *ptr++  =   0x000000;
+            }
+        }
+        Y1++;
+        X1++;
+        X2 = X1 + size_x;
+        Y2 = Y1 - size_y;
+        usleep(30000);
+    }
 }
