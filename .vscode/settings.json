@@ -7,6 +7,7 @@
         "gyro.h": "c",
         "stdlib.h": "c",
         "buzzer.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "mman.h": "c"
     }
 }
