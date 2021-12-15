@@ -1,3 +1,5 @@
+// #include "framebuffer.h"
+
 #include <stdio.h>
 #include <stdlib.h>     // for exit
 #include <unistd.h>     // for open/close
@@ -5,16 +7,19 @@
 #include <sys/ioctl.h>  // for ioctl
 #include <sys/mman.h>
 #include <linux/fb.h>   // for fb_var_screeninfo, FBIOGET_VSCREENINFO
+#include <stdlib.h> // for exit
 
-#define FBDEV_FILE "/dev/fb0"
-#define DES_size_x 500
-#define BALL_size_x 100
+#define FBDEV_FILE_0 "/dev/fb0"
+#define FBDEV_FILE_1 "/dev/fb1"
+
+#define DES_SIZE 500
+#define BALL_SIZE 100
 #define WIDTH 51
 #define HIGH 30
 
 void Ball_DP(int x1, int y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
 void Back_ground(int COLOR, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
-void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height);
+
 int main (int argc, char **argv)
 {
     int screen_width;
@@ -22,12 +27,15 @@ int main (int argc, char **argv)
     int bits_per_pixel;
     int line_length;
 
-    int fb_fd;
+    int fb_fd_0;
+    int fb_fd_1;
     struct  fb_var_screeninfo fbvar;
     struct  fb_fix_screeninfo fbfix;
-    unsigned char   *fb_mapped;
-    int mem_size_x;
-    unsigned long *ptr;
+    unsigned char   *fb_mapped0;
+    unsigned char   *fb_mapped1;
+    int mem_size;
+    unsigned long   *ptr0;
+    unsigned long   *ptr1;
     int coor_y;
     int coor_x;
 
@@ -35,23 +43,51 @@ int main (int argc, char **argv)
     printf("Frame buffer Application - ColorBar\n");
     printf("===================================\n");
 
-    if( access(FBDEV_FILE, F_OK) ) {
-        printf("%s: access error\n", FBDEV_FILE);
+    if( access(FBDEV_FILE_0, F_OK) )
+    {
+        printf("%s: access error\n", FBDEV_FILE_0);
         exit(1);
     }
 
-    if( (fb_fd = open(FBDEV_FILE, O_RDWR)) < 0) {
-        printf("%s: open error\n", FBDEV_FILE);
+    if( (fb_fd_0 = open(FBDEV_FILE_0, O_RDWR)) < 0)
+    {
+        printf("%s: open error\n", FBDEV_FILE_0);
         exit(1);
     }
 
-    if( ioctl(fb_fd, FBIOGET_VSCREENINFO, &fbvar) ) {
-        printf("%s: ioctl error - FBIOGET_VSCREENINFO \n", FBDEV_FILE);
+    if( ioctl(fb_fd_0, FBIOGET_VSCREENINFO, &fbvar) )
+    {
+        printf("%s: ioctl error - FBIOGET_VSCREENINFO \n", FBDEV_FILE_0);
         exit(1);
     }
 
-    if( ioctl(fb_fd, FBIOGET_FSCREENINFO, &fbfix) ) {
-        printf("%s: ioctl error - FBIOGET_FSCREENINFO \n", FBDEV_FILE);
+    if( ioctl(fb_fd_0, FBIOGET_FSCREENINFO, &fbfix) )
+    {
+        printf("%s: ioctl error - FBIOGET_FSCREENINFO \n", FBDEV_FILE_0);
+        exit(1);
+    }
+
+    if( access(FBDEV_FILE_1, F_OK) )
+    {
+        printf("%s: access error\n", FBDEV_FILE_1);
+        exit(1);
+    }
+
+    if( (fb_fd_1 = open(FBDEV_FILE_1, O_RDWR)) < 0)
+    {
+        printf("%s: open error\n", FBDEV_FILE_1);
+        exit(1);
+    }
+
+    if( ioctl(fb_fd_1, FBIOGET_VSCREENINFO, &fbvar) )
+    {
+        printf("%s: ioctl error - FBIOGET_VSCREENINFO \n", FBDEV_FILE_1);
+        exit(1);
+    }
+
+    if( ioctl(fb_fd_1, FBIOGET_FSCREENINFO, &fbfix) )
+    {
+        printf("%s: ioctl error - FBIOGET_FSCREENINFO \n", FBDEV_FILE_1);
         exit(1);
     }
 
@@ -64,37 +100,47 @@ int main (int argc, char **argv)
     printf("screen_height : %d\n", screen_height);
     printf("bits_per_pixel : %d\n", bits_per_pixel);
     printf("line_length : %d\n", line_length);
+    printf("frame_buffer : %s\n", FBDEV_FILE_0);
+    printf("frame_buffer : %s\n", FBDEV_FILE_1);
+    printf("____________________\n");
 
-    mem_size_x    =   screen_width * screen_height * 4;
-    fb_mapped   =   (unsigned char *)mmap(0, mem_size_x,
-                     PROT_READ|PROT_WRITE, MAP_SHARED, fb_fd, 0);
-
-    if (fb_mapped < 0) {
+    mem_size    =   screen_width * screen_height * 4;
+    fb_mapped0   =   (unsigned char *)mmap(0, mem_size, PROT_READ|PROT_WRITE, MAP_SHARED, fb_fd_0, 0);
+    fb_mapped1   =   (unsigned char *)mmap(0, mem_size, PROT_READ|PROT_WRITE, MAP_SHARED, fb_fd_1, 0);
+    if (fb_mapped0 < 0 || fb_mapped1 < 0)
+    {
         printf("mmap error!\n");
         exit(1);
     }
+    if (fb_mapped1 < 0)
+    {
+        printf("mmap error!\n");
+        exit(1);
+    }
+    int coor_Des[2] = {500,300};
+    int coor_Ball[2] = {800,500};
 
-    Back_ground(0x000000, ptr, fb_mapped, screen_width, screen_height);
-    for (int i = 100; i < 300; i++) {
-        int y1 = i;
-        int x1 = i + 100;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
-        Ball_DP(x1,y1, ptr, fb_mapped, screen_width, screen_height);
+    for(coor_y = 0; coor_y < screen_height; coor_y++) {
+        ptr0 =   (unsigned long *)fb_mapped0 + screen_width * coor_y;
+        for(coor_x = 0; coor_x < screen_width; coor_x++) {
+            *ptr0++  =   0x000000;
+        }
     }
-    for (int i = 400; i < 800; i++) {
+
+    for (int i = 100; i < 600; i++) {
+        int y1 = i+400;
         int x1 = i;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
-        Ball_DP(x1,300, ptr, fb_mapped, screen_width, screen_height);
+        Ball_DP(x1,y1, ptr0, fb_mapped0, screen_width, screen_height);
     }
-    for (int i = 300; i < 600; i++) {
-        int y1 = i;
-        hurdle_0(100,500, ptr, fb_mapped, screen_width, screen_height);
-        Ball_DP(800,y1, ptr, fb_mapped, screen_width, screen_height);
-    }
-    munmap( fb_mapped, mem_size_x);
-    close( fb_fd);
+
+    munmap( fb_mapped0, mem_size);
+    munmap( fb_mapped1, mem_size);
+    close( fb_fd_0);
+    close( fb_fd_1);
     return 0;
 }
+
+
 void Back_ground(int COLOR, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
     int coor_y, coor_x;
     for(coor_y = 0; coor_y < screen_height; coor_y++) {
@@ -143,38 +189,5 @@ void Ball_DP(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int s
             *ptr++ = 0x000000;
         }
     }
-    usleep(3000);
-}
-
-void hurdle_0(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int screen_width, int screen_height){
-    int size_x = 300;
-    int size_y = 300;
-    int X2 = X1 + size_x;
-    int Y2 = Y1 - size_y;
-    int coor_y, coor_x;
-
-    for(coor_y = 0; coor_y < Y1; coor_y++) {
-        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-        for (coor_x = 0; coor_x < X1; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-        for (coor_x = X1; coor_x < X2; coor_x++) {
-            *ptr++  =   0xFFFFFF;
-        }
-        for (coor_x = X2; coor_x < screen_width; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-    }
-    for(coor_y = 0; coor_y < Y2; coor_y++) {
-        ptr =   (unsigned long*)fb_mapped + screen_width * coor_y;
-        for (coor_x = 0; coor_x < X1; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-        for (coor_x = X1; coor_x < X2; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-        for (coor_x = X2; coor_x < screen_width; coor_x++) {
-            *ptr++  =   0x000000;
-        }
-    }
+    usleep(6000);
 }
