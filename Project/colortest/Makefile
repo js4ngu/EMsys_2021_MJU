@@ -6,8 +6,8 @@ all: colorbar.out colorbar_Jiho.out
 colorbar.out: colorbar.c
 	$(CC) colorbar.c -o colorbar.out
 
-colorbar_Jiho.out: colorbar_Jiho.c
-	$(CC) colorbar_Jiho.c -o colorbar_Jiho.out
+colorbar_Jiho.out: colorbar_Jiho.c libMyPeri.a
+	$(CC) colorbar_Jiho.c -o colorbar_Jiho.out -lMyPeri -L. -lpthread -lm
 
 clean: 
 	rm -f *.o *.a *.out

@@ -4,8 +4,8 @@ AR=arm-linux-gnueabi-ar
 all: libMyPeri.a
 	mv *.a ..
 
-libMyPeri.a: accelMagGyro.o button.o buzzer.o colorLED.o fnd.o led.o temp.o textLCD.o
-	$(AR) rc libMyPeri.a accelMagGyro.o button.o buzzer.o colorLED.o fnd.o led.o temp.o textLCD.o
+libMyPeri.a: accelMagGyro.o button.o buzzer.o colorLED.o display.o fnd.o led.o temp.o textLCD.o
+	$(AR) rc libMyPeri.a accelMagGyro.o button.o buzzer.o colorLED.o display.o fnd.o led.o temp.o textLCD.o
 
 accelMagGyro.o: accelMagGyro.h accelMagGyro.c
 	$(CC) -c accelMagGyro.c -o accelMagGyro.o
@@ -15,6 +15,8 @@ buzzer.o: buzzer.h buzzer.c
 	$(CC) -c buzzer.c -o buzzer.o
 colorLED.o: colorLED.h colorLED.c
 	$(CC) -c colorLED.c -o colorLED.o
+display.o: display.h display.c
+	$(CC) -c display.c -o display.o
 fnd.o: fnd.h fnd.c
 	$(CC) -c fnd.c -o fnd.o
 led.o: led.h led.c
