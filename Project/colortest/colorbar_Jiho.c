@@ -302,7 +302,6 @@ void Ball_DP(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int s
             *ptr = 0xFFFFFF;
         }
     }
-
     // for (coor_y = 0; coor_y < Y1; coor_y++)
     // {
     //     ptr = (unsigned long *)fb_mapped + screen_width * coor_y;
