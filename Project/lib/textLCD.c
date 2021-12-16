@@ -5,15 +5,15 @@ stTextLCD stlcd;
 int fd;
 int len;
 
-void doHelp(void)
-{
-	printf("usage: textlcdtest <option> <linenum> <'string'>\n");
-	printf("       				option = 0 or 1\n");
-	printf("       				option = 0 : ERASE\n");
-	printf("       				option = 1 : WR\n");
-	printf("       					     linenum => 1 ~ 2\n");
-	printf("  ex) textlcdtest 2 'test hello'\n");
-}
+// void doHelp(void)
+// {
+// 	printf("usage: textlcdtest <option> <linenum> <'string'>\n");
+// 	printf("       				option = 0 or 1\n");
+// 	printf("       				option = 0 : ERASE\n");
+// 	printf("       				option = 1 : WR\n");
+// 	printf("       					     linenum => 1 ~ 2\n");
+// 	printf("  ex) textlcdtest 2 'test hello'\n");
+// }
 
 int textLCD_Init(void)
 {
