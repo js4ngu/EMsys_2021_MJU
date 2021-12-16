@@ -22,6 +22,8 @@
 
 void HW_init();
 void HW_close();
+int set_Mobility();
+
 double angle_x(double accel_x, double accel_y, double accel_z);
 double angle_y(double accel_x, double accel_y, double accel_z);
 double round(double num);
@@ -32,6 +34,7 @@ int main(void)
 {
     HW_init();
     display_init();
+    int mobility = set_Mobility();
     msgID = buttonInit();
     int returnValue = 0;
     BUTTON_MSG_T messageRxData;
@@ -53,6 +56,7 @@ int main(void)
     case KEY_BACK:
         printf("Back key\r\n");
         printf("PLAY key\r\n");
+        mobility = 1;
         status = LEVEL1;
         break;
     case KEY_VOLUMEDOWN:
@@ -72,17 +76,23 @@ int main(void)
         printf("LEVEL1\r\n");
         int Ax = 300;
         int Ay = 600;
-        for (int i = 0; i < 60; i++) {
+
+        level_1_background();
+        while(1){
             init_accel();
             double ax = read_accel(X) / 163;
             double ay = read_accel(Y) / 163;
-            Ax = Ax + ax;
-            Ay = Ay + ay;
+            Ax = Ax + (ax*mobility);
+            Ay = Ay + (ay*mobility);
+            
+            int Cx = (Ax + 40)/2;
+            int Cy = (Ay + 40)/2;
+
             draw_square(Ay, Ax, 40, 40, 0x000000, 0);
             usleep(100000);
             draw_square(Ay, Ax, 40, 40, 0xFFFFFF, 0);
+            
             printf("Deg Data: %d, %d\r\n", (int)ax, (int)ay);
-
         }        
         break;
     case LEVEL2:
@@ -129,4 +139,9 @@ void HW_close()
     close_accel();
     textLCD_off();
     ledExit();
+}
+
+int set_Mobility(){
+    int temp = readTEMP()/5;
+    return temp;
 }

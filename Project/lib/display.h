@@ -16,7 +16,7 @@
 
 int display_init(void);
 int draw_background(int color, int idx_buffer);
-int draw_square(int X, int Y, int dX, int dY, int color, int idx_buffer);
+int draw_square(int der_x, int der_y, int dX, int dY, int color, int idx_buffer);
 int display_close(void);
 
 #endif

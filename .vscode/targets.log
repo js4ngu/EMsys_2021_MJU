@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Dec 17 03:21:05 2021
+# Make data base, printed on Fri Dec 17 05:08:29 2021
 
 # Variables
 
@@ -63,7 +63,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 DEBEMAIL = hamonikr-packages@googlegroups.com
 # environment
-VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211217T031905
+VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211217T050822
 # environment
 CLUTTER_IM_MODULE = xim
 # environment
@@ -103,7 +103,7 @@ XDG_SESSION_DESKTOP = cinnamon
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2313
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2673
 # automatic
 %F = $(notdir $%)
 # environment
@@ -117,7 +117,7 @@ QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1330
+SSH_AGENT_PID = 1331
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
@@ -155,7 +155,7 @@ SHLVL = 1
 # makefile (from 'Makefile', line 1)
 CC = arm-linux-gnueabi-gcc
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-64407750-5da1-4a05-bf72-31d0b1187995.sock
+VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-27b030e1-203c-4b27-98fc-98cb855a4a01.sock
 # environment
 XDG_SESSION_ID = c2
 # environment
@@ -237,7 +237,7 @@ LC_ADDRESS = ko_KR.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2313
+VSCODE_PID = 2673
 # variable set hash-table stats:
 # Load=114/1024=11%, Rehash=0, Collisions=16/143=11%
 
@@ -247,7 +247,7 @@ VSCODE_PID = 2313
 
 # Directories
 
-# . (device 2049, inode 825243): 12 files, no impossibilities.
+# . (device 2049, inode 1368934): 12 files, no impossibilities.
 
 # 12 files, no impossibilities in 1 directories.
 
@@ -279,7 +279,7 @@ all: memo.out
 Makefile:
 #  Implicit rule search has been done.
  
-#  Last modified 2021-12-17 03:20:49.544663473
+#  Last modified 2021-12-17 03:20:49.544663
 #  File has been updated.
 #  Successfully updated.
 
@@ -327,7 +327,7 @@ memo.out: memo.c
 # Not a target:
 memo.c:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-17 03:20:49.548665474
+#  Last modified 2021-12-17 03:20:49.548665
 #  File has been updated.
 #  Successfully updated.
 
@@ -345,6 +345,6 @@ memo.c:
 # strcache performance: lookups = 30 / hit rate = 36%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=1/30=3%
-# Finished Make data base on Fri Dec 17 03:21:05 2021
+# Finished Make data base on Fri Dec 17 05:08:29 2021
 
  

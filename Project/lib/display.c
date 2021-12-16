@@ -124,13 +124,13 @@ int draw_background(int color, int idx_buffer)
         return -1;
 }
 
-int draw_square(int X, int Y, int dX, int dY, int color, int idx_buffer)
+int draw_square(int der_x, int der_y, int dX, int dY, int color, int idx_buffer)
 {
     if (idx_buffer == 0)
     {
-        for (int x = X; x < X + dX; x++)
+        for (int x = der_x; x < der_x + dX; x++)
         {
-            for (int y = Y; y < Y + dY; y++)
+            for (int y = der_y; y < der_y + dY; y++)
             {
                 ptr0 = (unsigned long *)fb_mapped0 + screen_width * y + x;
                 *ptr0 = color;
@@ -140,9 +140,9 @@ int draw_square(int X, int Y, int dX, int dY, int color, int idx_buffer)
     }
     else if (idx_buffer == 1)
     {
-        for (int x = X; x < X + dX; x++)
+        for (int x = der_x; x < der_x + dX; x++)
         {
-            for (int y = Y; y < Y + dY; y++)
+            for (int y = der_y; y < der_y + dY; y++)
             {
                 ptr1 = (unsigned long *)fb_mapped1 + screen_width * y + x;
                 *ptr1 = color;
