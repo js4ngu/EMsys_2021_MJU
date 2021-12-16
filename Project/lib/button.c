@@ -68,7 +68,7 @@ int buttonInit(void)
       printf ("Did you insmod?\r\n");
       return 0;
    }
-   printf ("inputDevPath: %s\r\n", inputDevPath);
+    printf ("inputDevPath: %s\r\n", inputDevPath);
     fd = open(inputDevPath, O_RDONLY);
     msgID = msgget(MESSAGE_ID, IPC_CREAT | 0666);
     pthread_create(&buttonTh_id, NULL, &buttonThFunc, NULL);
