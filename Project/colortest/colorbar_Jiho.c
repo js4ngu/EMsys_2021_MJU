@@ -258,7 +258,7 @@ int main(int argc, char **argv)
     while(1)
     {
         Back_ground(0xFF0000, ptr1, fb_mapped1, screen_width, screen_height);
-        Back_ground(0x222222, ptr, fb_mapped, screen_width, screen_height);
+        // Back_ground(0xFF0000, ptr, fb_mapped, screen_width, screen_height);
         Ball_DP(462, 250, ptr, fb_mapped, screen_width, screen_height);
         usleep(1000000);
         Back_ground(0x00FF00, ptr, fb_mapped, screen_width, screen_height);
@@ -302,6 +302,19 @@ void Ball_DP(int X1, int Y1, unsigned long *ptr, unsigned char *fb_mapped, int s
             *ptr = 0xFFFFFF;
         }
     }
+<<<<<<< HEAD
+
+    for(int x = X1; x < X1+2*size_x;x++)
+    {
+        for(int y= Y1;y < Y1+2*size_y;y++)
+        {
+            ptr = (unsigned long *)fb_mapped + screen_width * y + x;
+            *ptr = 0xF000000F;
+        }
+    }
+
+=======
+>>>>>>> 2d88ff2d4cd16813b4d53602b80dc996a8abb616
     // for (coor_y = 0; coor_y < Y1; coor_y++)
     // {
     //     ptr = (unsigned long *)fb_mapped + screen_width * coor_y;
