@@ -1,280 +1,399 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
-#include <string.h>
-#include <unistd.h>     // for open/close
-#include <fcntl.h>      // for O_RDWR
-#include <sys/ioctl.h>  // for ioctl
-#include <sys/mman.h>
-#include <linux/fb.h>   // for fb_var_screeninfo, FBIOGET_VSCREENINFO
-#include "libfbdev.h"
+#include <math.h>
+#include <stdlib.h> // for exit
+#include "./lib/accelMagGyro.h"
+#include "./lib/button.h"
+#include "./lib/buzzer.h"
+#include "./lib/colorLED.h"
+#include "./lib/fnd.h"
+#include "./lib/led.h"
+#include "./lib/temp.h"
+#include "./lib/textLCD.h"
 
+#define MENU 0
+#define LEVEL1 1
+#define LEVEL2 2
+#define LEVEL3 3
+#define FAIL 4
+#define STAGE1 5
+#define STAGE2 6
+#define STAGE3 7
+#define STAGE4 8
+#define STAGE5 9
+#define STAGE6 10
+#define STAGE7 11
+#define STAGE8 12
+#define START 13
+#define EXIT 14
 
-//You have to do:
-//
-//  fbset -fb /dev/fb1 -xres 1024 -yres 600 -depth 32 -vyres 600 -t 31250 40 40 29 13 48 3
-//
-//You must.
+#define HURDLE_WIDTH 51
+#define HURDLE_HIGH 30
+#define DES_SENSTIVE 60
 
-#define FBDEV_FILE "/dev/fb0"
-#define FBDEV_FILE2 "/dev/fb1"
+const int DESTINATION_S1 [3][2]  = {{100,100},
+                                    {200,100},
+                                    {300,200}};
+const int DESTINATION_S2 [3][2]  = {{100,100},
+                                    {200,100},
+                                    {300,200}};
+const int DESTINATION_S3 [3][2]  = {{100,100},
+                                    {200,100},
+                                    {300,200}};
 
-static int fbfd;
-static int fbfd2;
-static int fbHeight=0;	//현재 하드웨어의 사이즈
-static int fbWidth=0;	//현재 하드웨어의 사이즈
-static unsigned long   *pfbmap;	//프레임 버퍼
-static unsigned long   *pfbmap2;
-static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
-static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
+const int HURDLE_0[2] = {500,300}; //왼쪽 위 꼭지점 좌표 hurdle_0[0] : x, hurdle_0[1] : y
+const int HURDLE_1[2] = {400,500};
 
+void HW_init();
+void HW_close();
 
-#define PFBSIZE 			((fbHeight)*fbWidth*sizeof(unsigned long))	
-static int currentEmptyBufferPos = 0;
-//1 Pixel 4Byte Framebuffer.
+void Level1();
+void Level2();
+void Level3();
 
+void Level1_Playgame(int destinationX, int destinationY, int nextStage);
+void Level2_Playgame(int destinationX, int destinationY, int nextStage);
+void Level3_Playgame(int destinationX, int destinationY, int nextStage);
 
-int fb_init(int * screen_width, int * screen_height, int * bits_per_pixel, int * line_length)
-{
-    struct  fb_fix_screeninfo fbfix;
+void Ball_display1(int ballLocationX, int ballLocationY);
+void Ball_display2(int ballLocationX, int ballLocationY);
+void Ball_display3(int ballLocationX, int ballLocationY);
 
-	if( (fbfd = open(FBDEV_FILE, O_RDWR)) < 0)
-    {
-        printf("%s: open error\n", FBDEV_FILE);
-        return -1;
-    }
+int set_Mobility();
+int angle_x(void);
+int angle_y(void);
 
-    if( ioctl(fbfd, FBIOGET_VSCREENINFO, &fbInfo) )
-    {
-        printf("%s: ioctl error - FBIOGET_VSCREENINFO \n", FBDEV_FILE);
-		close(fbfd);
-        return -1;
-    }
-   	if( ioctl(fbfd, FBIOGET_FSCREENINFO, &fbFixInfo) )
-    {
-        printf("%s: ioctl error - FBIOGET_FSCREENINFO \n", FBDEV_FILE);
-        close(fbfd);
-        return -1;
-    }
-	//printf ("FBInfo.YOffset:%d\r\n",fbInfo.yoffset);
-	fbInfo.yoffset = 0;
-	ioctl(fbfd, FBIOPUT_VSCREENINFO, &fbInfo);	//슉!
-    if (fbInfo.bits_per_pixel != 32)
-    {
-        printf("bpp is not 32\n");
-		close(fbfd);
-        return -1;
-    }	
+int ballLocation[2] = {0,0};
+int status = MENU;
+int stage = STAGE1;
+int key_value = 0;
+int mobility = 0;
 
-    fbWidth = *screen_width    =   fbInfo.xres;
-    fbHeight = *screen_height   =   fbInfo.yres;
-    *bits_per_pixel  =   fbInfo.bits_per_pixel;
-    *line_length     =   fbFixInfo.line_length;
+void main(){
+    HW_init();
+    while (1){
+        switch (status) {
+            case MENU:
+                textLCD_off();
+                writeLCD(1, "MENU");
+                status = LEVEL1;
+                break;
+                
+            case LEVEL1:
+                textLCD_off();
+                writeLCD(1, "LEVEL1");
+                Level1();
+                break;
 
-	pfbmap  =   (unsigned long *)
-        mmap(0, PFBSIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fbfd, 0);
-	
-	if ((unsigned)pfbmap == (unsigned)-1)
-    {
-        printf("fbdev mmap failed\n");
-        close(fbfd);
-		return -1;
-    }
-	#ifdef ENABLED_DOUBLE_BUFFERING
-		currentEmptyBufferPos = DOUBLE_BUFF_START;	//더블버퍼링 임시 주소로 할당
-	#else
-		currentEmptyBufferPos = 0;
-	#endif
-	//printf ("CurrentEmptyBuffPos:%d\r\n",currentEmptyBufferPos);
-//printf ("\r\n");
-	return 1;
-}
+            case LEVEL2:
+                textLCD_off();
+                writeLCD(1, "LEVEL2");
+                Level2();
+                break;
 
-int fb_init2(void)	//as overlay.
-{
-	printf ("Second FB1 is init...\r\n");
-        if( (fbfd2 = open(FBDEV_FILE2, O_RDWR)) < 0)
-    {
-        printf("%s: open error\n", FBDEV_FILE2);
-        return -1;
-    }
+            case LEVEL3:
+                textLCD_off();
+                writeLCD(1, "LEVEL3");
+                Level3();
+                break;
 
-	printf ("PFB Size:%d\r\n",PFBSIZE);
-        pfbmap2  =   (unsigned long *) mmap(0, PFBSIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fbfd2, 0);
+            case FAIL:
+                textLCD_off();
+                writeLCD(1, "FAIL");
+                break;
 
-        if ((unsigned)pfbmap2 == (unsigned)-1)
-    {
-        printf("fbdev2 mmap failed\n");
-        close(fbfd2);
-                return -1;
-    }
-       return 1;
-}
-
-void fb_clear(void)
-{
-	int coor_y = 0;
-	int coor_x = 0;
-	// fb clear - black
-    for(coor_y = 0; coor_y < fbHeight; coor_y++) 
-	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
-        for(coor_x = 0; coor_x < fbWidth; coor_x++)
-        {
-            *ptr++  =   0x000000;
+            default:
+                fndOff();
+                status = MENU;
+                stage = STAGE1;
+                break;
         }
     }
 }
 
-void fb_clear2(int xpos, int ypos, int width, int height)
-{
-	
-        int coor_y = 0;
-        int coor_x = 0;
-        // fb clear - black
-	//if (height+ypos > fbHeight)
-	//sheight
-	if (ypos+height > fbHeight) height = fbHeight-ypos;
-    for(coor_y = ypos; coor_y < ypos+height; coor_y++)
-        {
-//        unsigned long *ptr =   pfbmap2 + (fbWidth * coor_y)+(fbWidth-xpos-1);
-        for(coor_x = 0; coor_x < width; coor_x++)
-        {
-            //*ptr++  =   0x000000;
-	    pfbmap2[ (coor_y)*fbWidth + ( (fbWidth-xpos)-coor_x-1) ] = 0x0;
+/*
+1. 화면을 받고
+2. 버튼 : 쓰레드
+3. 자이로 : 쓰레도
+4. 게임 : 쓰레드
+5. 화면 출력 : 쓰레드
+*/
+
+void Level1(){
+    int destination[2];
+    switch (stage) {
+        case STAGE1:
+            fndDisp(1, 0);
+            destination[0] = DESTINATION_S1[0][0];
+            destination[1] = DESTINATION_S1[0][1];
+            Level1_Playgame(destination[0],destination[1],STAGE2);
+            break;
+        case STAGE2:
+            fndDisp(2, 0);
+            destination[0] = DESTINATION_S1[1][0];
+            destination[1] = DESTINATION_S1[1][1];
+            Level1_Playgame(destination[0],destination[1],STAGE3);
+            break;
+        case STAGE3:
+            fndDisp(3, 0);
+            destination[0] = DESTINATION_S1[2][0];
+            destination[1] = DESTINATION_S1[2][1];
+            Level1_Playgame(destination[0],destination[1],STAGE4);
+            break;
+        default:
+            break;
         }
+}
+
+void Level2(){
+    int destination[2];
+    switch (stage) {
+        case STAGE1:
+            fndDisp(1, 0);
+            destination[0] = DESTINATION_S2[0][0];
+            destination[1] = DESTINATION_S2[0][0];
+            Level2_Playgame(destination[0],destination[1],STAGE2);
+            break;
+        case STAGE2:
+            fndDisp(2, 0);
+            destination[0] = DESTINATION_S2[1][0];
+            destination[1] = DESTINATION_S2[1][1];
+            Level2_Playgame(destination[0],destination[1],STAGE3);
+            break;
+        case STAGE3:
+            fndDisp(3, 0);
+            destination[0] = DESTINATION_S2[2][0];
+            destination[1] = DESTINATION_S2[2][1];
+            Level2_Playgame(destination[0],destination[1],STAGE4);
+            break;
+        default:
+            break;
     }
 }
 
-void fb_close(void)
-{
-	printf ("Memory UnMapped!\r\n");
-    munmap( pfbmap, PFBSIZE);
-	printf ("CloseFB\r\n");
-    close( fbfd);
-}
-void fb_close2(void)
-{
-        printf ("Memory UnMapped!\r\n");
-    munmap( pfbmap2, PFBSIZE);
-        printf ("CloseFB\r\n");
-    close( fbfd2);
-}
-
-void fb_write(int x1, int y1, int x2, int y2, char color) {
-	int coor_x1=x1;
-    int coor_y1=y1;
-	int coor_x2=x2;
-    int coor_y2=y2;
-    char COLOR = color;
-	for(coor_y = coor_y1; coor_y < coor_y2; coor_y++) {
-		for (coor_x=coor_x1; coor_x < coor_x2; coor_x++) {
-            *pfbmap++ = COLOR;
-		}
-    }
-}
-
-
-void fb_write2(int x1, int y1, int x2, int y2, char color) {
-	int coor_x1=x1;
-    int coor_y1=y1;
-	int coor_x2=x2;
-    int coor_y2=y2;
-    char COLOR = color;
-	for(coor_y = coor_y1; coor_y < coor_y2; coor_y++) {
-		for (coor_x=coor_x1; coor_x < coor_x2; coor_x++) {
-            *pfbmap2++ = COLOR;
-		}
-    }
+void Level3(){
+    int destination[2];
+    switch (stage) {
+        case STAGE1:
+            fndDisp(1, 0);
+            destination[0] = DESTINATION_S3[0][0];
+            destination[1] = DESTINATION_S3[0][1];
+            Level3_Playgame(destination[0],destination[1],STAGE2);
+            break;
+        case STAGE2:
+            fndDisp(2, 0);
+            destination[0] = DESTINATION_S3[1][0];
+            destination[1] = DESTINATION_S3[1][1];
+            Level3_Playgame(destination[0],destination[1],STAGE3);
+            break;
+        case STAGE3:
+            fndDisp(3, 0);
+            destination[0] = DESTINATION_S3[2][0];
+            destination[1] = DESTINATION_S3[2][1];
+            Level3_Playgame(destination[0],destination[1],STAGE4);
+            break;
+        default:
+            break;
+        }
+        
 }
 
+void Level1_Playgame(int destination_x, int destination_y,int nextStage){
+    int destination[2] = {destination_x,destination_y};
+    int ballSpeed[2];
 
+    int des_Flag[2] = {0,0};
+    int result = 2;
 
-/*---------------------------------------------------------------------*/
-/*-----------------------김지호 보시오 ---------------------------------*/
-// Ball, DES
-#define DES_SIZE 30
-#define WIDTH 51
-#define HIGH 30
+    while (1) {
+        printf("%d, ", angle_x());
+        printf("%d\n", angle_y());
+        Ball_display1(ballLocation[0], ballLocation[1]);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
+        ballLocation[0] = ballLocation[0] + ballSpeed[0];
+        ballLocation[1] = ballLocation[1] + ballSpeed[1];
+        
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
 
-void fb_write_stage1(int xBall, int yBall, int xDes, int yDes) {
-	int coor_Ball [2] = {xBall, yBall};
-    int coor_Des [2] = {xDes, yDes};
-    
-    //DES DP
-	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0x0000FF;
-		}
+        if (des_Flag[0] && des_Flag[1]) {
+            result = 1;
+            break;
+        }
+        Ball_display1(ballLocation[0], ballLocation[1]);
     }
 
-    //BALL DP
-	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
+    if(nextStage == STAGE1) {
+        if (result == 1) {
+            stage = nextStage;
+            status = LEVEL2;
+        }
+        else if (result == 0) status = FAIL;
+    }
+    else {
+        if (result == 1) stage = nextStage;
     }
 }
 
-void fb_write_stage2(int xBall, int yBall, int xDes, int yDes, int HURDLE_0_x, int HURDLE_0_y) {
-	int coor_Ball [2] = {xBall, yBall};
-    int coor_Des  [2] = {xDes, yDes};
-    int HURDLE_0  [2] = {HURDLE_0_x, HURDLE_0_y};
-    //DES DP
-	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0x0000FF;
-		}
-    }
+void Level2_Playgame(int destination_x, int destination_y, int nextStage){
+    int destination[2] = {destination_x,destination_y};
+    int ballSpeed[2];
 
-    //HURDLE_0 DP
-	for(int coor_y = HURDLE_0[1]; coor_y < HURDLE_0[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = HURDLE_0[0]; coor_x < HURDLE_0[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
-    }
+    int des_Flag[2] = {0,0};
+    int deadLine_Flag0[2] = {0,0};
+    int result = 2;
 
-    //BALL DP
-	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
+    while (1) {
+        printf("%d, ", angle_x());
+        printf("%d\n", angle_y());
+        Ball_display2(ballLocation[0], ballLocation[1]);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
+        ballLocation[0] = ballLocation[0] + ballSpeed[0];
+        ballLocation[1] = ballLocation[1] + ballSpeed[1];
+        
+        //장애물 검출 알고리즘 입력
+        if (( HURDLE_0[0] - HURDLE_WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_0[0] + HURDLE_WIDTH )) deadLine_Flag0[0] = 1;
+        if (( HURDLE_0[1] - HURDLE_HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_0[1] + HURDLE_HIGH )) deadLine_Flag0[1] = 1;
+
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
+
+        if (des_Flag[0] && des_Flag[1]) {
+            result = 1;
+            break;
+        }
+        if (deadLine_Flag0[0] && deadLine_Flag0[1]) {
+            result = 0;
+            break;
+        }
+        Ball_display2(ballLocation[0], ballLocation[1]);
+    }
+    if(nextStage == STAGE1) {
+        if (result == 1) {
+            stage = nextStage;
+            status = LEVEL3;
+        }
+        else if (result == 0) status = FAIL;
+    }
+    else {
+        if (result == 1) stage = nextStage;
+        else if (result == 0) status = FAIL;
+    }
+}
+
+void Level3_Playgame(int destination_x, int destination_y, int nextStage){
+    int destination[2] = {destination_x,destination_y};
+    int ballSpeed[2];
+
+    int des_Flag[2] = {0,0};
+    int deadLine_Flag0[2] = {0,0};
+    int deadLine_Flag1[2] = {0,0};
+    int result = 2;
+
+    while (1) {
+        printf("%d, ", angle_x());
+        printf("%d\n", angle_y());
+        Ball_display3(ballLocation[0], ballLocation[1]);
+        ballSpeed[0] = mobility * angle_x();
+        ballSpeed[1] = mobility * angle_y();
+        ballLocation[0] = ballLocation[0] + ballSpeed[0];
+        ballLocation[1] = ballLocation[1] + ballSpeed[1];
+        
+        //장애물 검출 알고리즘 입력
+        if (( HURDLE_0[0] - HURDLE_WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_0[0] + HURDLE_WIDTH )) deadLine_Flag0[0] = 1;
+        if (( HURDLE_0[1] - HURDLE_HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_0[1] + HURDLE_HIGH )) deadLine_Flag0[1] = 1;
+        if (( HURDLE_1[0] - HURDLE_WIDTH < ballLocation[0] ) && ( ballLocation[0] < HURDLE_1[0] + HURDLE_WIDTH )) deadLine_Flag1[0] = 1;
+        if (( HURDLE_1[1] - HURDLE_HIGH  < ballLocation[1] ) && ( ballLocation[1] < HURDLE_1[1] + HURDLE_HIGH )) deadLine_Flag1[1] = 1;
+
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[0] = 1;
+        if (( destination[0] - DES_SENSTIVE < ballLocation[1] ) && ( ballLocation[1] < destination[1] + DES_SENSTIVE )) des_Flag[1] = 1;
+
+        if (des_Flag[0] && des_Flag[1]) {
+            result = 1;
+            break;
+        }
+        if (deadLine_Flag0[0] && deadLine_Flag0[1]) {
+            result = 0;
+            break;
+        }
+        if (deadLine_Flag1[0] && deadLine_Flag1[1]) {
+            result = 0;
+            break;
+        }
+        Ball_display3(ballLocation[0], ballLocation[1]);
+    }
+    if(nextStage == STAGE1) {
+        if (result == 1) {
+            stage = nextStage;
+            status = MENU;
+        }
+        else if (result == 0) status = FAIL;
+    }
+    else {
+        if (result == 1) stage = nextStage;
+        else if (result == 0) status = FAIL;
     }
 }
 
-void fb_write_stage2(int xBall, int yBall, int xDes, int yDes, int HURDLE_0_x, int HURDLE_0_y,  int HURDLE_1_x, int HURDLE_1_y) {
-	int coor_Ball [2] = {xBall, yBall};
-    int coor_Des  [2] = {xDes, yDes};
-    int HURDLE_0  [2] = {HURDLE_0_x, HURDLE_0_y};
-    int HURDLE_1  [2] = {HURDLE_1_x, HURDLE_1_y};
 
-    //DES DP
-	for(int coor_y = coor_Des[1]; coor_y < coor_Des[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Des[0]; coor_x < coor_Des[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0x0000FF;
-		}
-    }
+void Ball_display1(int ballLocationX, int ballLocationY){
 
-    //HURDLE_0 DP
-	for(int coor_y = HURDLE_0[1]; coor_y < HURDLE_0[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = HURDLE_0[0]; coor_x < HURDLE_0[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
-    }
-
-    //HURDLE_1 DP
-	for(int coor_y = HURDLE_1[1]; coor_y < HURDLE_1[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = HURDLE_1[0]; coor_x < HURDLE_1[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
-    }
-
-    //BALL DP
-	for(int coor_y = coor_Ball[1]; coor_y < coor_Ball[1] + DES_SIZE; coor_y++) {
-		for (int coor_x = coor_Ball[0]; coor_x < coor_Ball[0] + DES_SIZE; coor_x++) {
-            *pfbmap++ = 0xFFFFFF;
-		}
-    }
 }
-/*-----------------------여기까지 보면됨---------------------------------*/
-/*---------------------------------------------------------------------*/
+void Ball_display2(int ballLocationX, int ballLocationY){
+
+}
+void Ball_display3(int ballLocationX, int ballLocationY){
+
+}
+
+int set_Mobility(){
+    int temp = readTEMP();
+    mobility = 1;
+    /*
+    if ( (-10<temp) && (temp<60) ){
+        mobility = temp + 10;
+    }
+    else if(temp < -10){
+        mobility = 1;
+    }
+    else if(60 < temp){
+        mobility = 60;
+    }
+    else;*/
+    return mobility;
+}
+
+void HW_init(){
+    init_accel();
+    textLCD_Init();
+    textLCD_off();
+    //int mobility = set_Mobility();
+    printf("HW INIT\n");
+}
+
+void HW_close(){
+    close_accel();
+}
+
+int angle_x(){
+    int ANGLE_X;
+    int accel_y = read_accel(Y);
+    int accel_z = read_accel(Z);
+    if(accel_z == 0){
+        ANGLE_X = 0;
+    }
+    else ANGLE_X = (int)atan(accel_y / accel_z) * (180 / 3.14);
+    return ANGLE_X;
+}
+
+int angle_y(){
+    int ANGLE_Y;
+    int accel_x = read_accel(X);
+    int accel_y = read_accel(Y);
+    int accel_z = read_accel(Z);
+    if(sqrt(accel_y*accel_y + accel_z*accel_z) == 0){
+        ANGLE_Y = 0;
+    }
+    else ANGLE_Y = (int)atan(accel_x/ sqrt(accel_y*accel_y + accel_z*accel_z)) * (180 / 3.14);
+    return ANGLE_Y;
+}
