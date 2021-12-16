@@ -1,9 +1,6 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/jongsangyoo/EMsys/Github/EMsys_2021_MJU'
- 
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/jongsangyoo/EMsys/EMsys_2021_MJU'
 arm-linux-gnueabi-gcc memo.c -o memo.out
- 
 scp *.out ecube@210.99.114.80:/home/ecube/EMsys
- 
-make: Leaving directory '/home/jongsangyoo/EMsys/Github/EMsys_2021_MJU'
+make: Leaving directory '/home/jongsangyoo/EMsys/EMsys_2021_MJU'
  

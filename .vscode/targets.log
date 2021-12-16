@@ -1,23 +1,14 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # GNU Make 4.1
- 
 # Built for x86_64-pc-linux-gnu
- 
 # Copyright (C) 1988-2014 Free Software Foundation, Inc.
- 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
- 
 # This is free software: you are free to change and redistribute it.
- 
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
- 
-# Make data base, printed on Thu Dec 16 00:42:00 2021
- 
+# Make data base, printed on Fri Dec 17 03:21:05 2021
 
 # Variables
- 
 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
@@ -40,7 +31,7 @@ GDMSESSION = cinnamon
 # environment
 XMODIFIERS = @im=nimf
 # makefile
-CURDIR := /home/jongsangyoo/EMsys/Github/EMsys_2021_MJU
+CURDIR := /home/jongsangyoo/EMsys/EMsys_2021_MJU
 # makefile
 SHELL = /bin/sh
 # environment
@@ -72,7 +63,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 DEBEMAIL = hamonikr-packages@googlegroups.com
 # environment
-VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211215T160709
+VSCODE_LOGS = /home/jongsangyoo/.config/Code/logs/20211217T031905
 # environment
 CLUTTER_IM_MODULE = xim
 # environment
@@ -90,7 +81,7 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-SESSION_MANAGER = local/jongsangyoo-VM:@/tmp/.ICE-unix/1217,unix/jongsangyoo-VM:/tmp/.ICE-unix/1217
+SESSION_MANAGER = local/jongsangyoo-VM:@/tmp/.ICE-unix/1208,unix/jongsangyoo-VM:/tmp/.ICE-unix/1208
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -112,7 +103,7 @@ XDG_SESSION_DESKTOP = cinnamon
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1756
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2313
 # automatic
 %F = $(notdir $%)
 # environment
@@ -120,13 +111,13 @@ DISPLAY = :0
 # environment
 GTK_IM_MODULE = nimf
 # environment
-PWD = /home/jongsangyoo/EMsys/Github/EMsys_2021_MJU
+PWD = /home/jongsangyoo/EMsys/EMsys_2021_MJU
 # environment
 QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1339
+SSH_AGENT_PID = 1330
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
@@ -164,7 +155,7 @@ SHLVL = 1
 # makefile (from 'Makefile', line 1)
 CC = arm-linux-gnueabi-gcc
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-4c1800d7-a770-4c60-b852-6c4f9ba228ec.sock
+VSCODE_IPC_HOOK_EXTHOST = /tmp/vscode-ipc-64407750-5da1-4a05-bf72-31d0b1187995.sock
 # environment
 XDG_SESSION_ID = c2
 # environment
@@ -246,7 +237,7 @@ LC_ADDRESS = ko_KR.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1756
+VSCODE_PID = 2313
 # variable set hash-table stats:
 # Load=114/1024=11%, Rehash=0, Collisions=16/143=11%
 
@@ -256,9 +247,9 @@ VSCODE_PID = 1756
 
 # Directories
 
-# . (device 2049, inode 1369083): 11 files, no impossibilities.
+# . (device 2049, inode 825243): 12 files, no impossibilities.
 
-# 11 files, no impossibilities in 1 directories.
+# 12 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -287,7 +278,8 @@ all: memo.out
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-15 06:00:32.628088403
+ 
+#  Last modified 2021-12-17 03:20:49.544663473
 #  File has been updated.
 #  Successfully updated.
 
@@ -296,9 +288,7 @@ Makefile:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
- 
 
- 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -337,7 +327,7 @@ memo.out: memo.c
 # Not a target:
 memo.c:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-16 00:27:57.680800794
+#  Last modified 2021-12-17 03:20:49.548665474
 #  File has been updated.
 #  Successfully updated.
 
@@ -349,12 +339,12 @@ memo.c:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 139 B / avg = 7 B
-# current buf: size = 8162 B / used = 139 B / count = 18 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 153 B / avg = 8 B
+# current buf: size = 8162 B / used = 153 B / count = 19 / avg = 8 B
 
-# strcache performance: lookups = 29 / hit rate = 37%
+# strcache performance: lookups = 30 / hit rate = 36%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=1/29=3%
-# Finished Make data base on Thu Dec 16 00:42:00 2021
+# Load=19/8192=0%, Rehash=0, Collisions=1/30=3%
+# Finished Make data base on Fri Dec 17 03:21:05 2021
 
  

@@ -8,6 +8,7 @@
 #include "./lib/led.h"
 #include "./lib/temp.h"
 #include "./lib/textLCD.h"
+#include "./lib/display.h"
 
 #define MENU 7
 #define PLAY_GAME 8
@@ -30,7 +31,7 @@ int status = MENU;
 int main(void)
 {
     HW_init();
-
+    display_init();
     msgID = buttonInit();
     int returnValue = 0;
     BUTTON_MSG_T messageRxData;
@@ -46,8 +47,8 @@ int main(void)
     {
     case KEY_HOME:
         printf("Home key\r\n");
-        printf("MENU key\r\n");
-        status = MENU;
+        printf("PLAY key\r\n");
+        status = LEVEL1;
         break;
     case KEY_BACK:
         printf("Back key\r\n");
@@ -69,13 +70,19 @@ int main(void)
     case LEVEL1:
         writeLCD(1, "LEVEL1");
         printf("LEVEL1\r\n");
+        int Ax = 300;
+        int Ay = 600;
         for (int i = 0; i < 60; i++) {
             init_accel();
             double ax = read_accel(X) / 163;
             double ay = read_accel(Y) / 163;
-            double az = read_accel(Z) / 163;
+            Ax = Ax + ax;
+            Ay = Ay + ay;
+            draw_square(Ay, Ax, 40, 40, 0x000000, 0);
+            usleep(100000);
+            draw_square(Ay, Ax, 40, 40, 0xFFFFFF, 0);
             printf("Deg Data: %d, %d\r\n", (int)ax, (int)ay);
-            usleep(300000);
+
         }        
         break;
     case LEVEL2:
