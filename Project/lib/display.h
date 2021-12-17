@@ -17,6 +17,9 @@
 int display_init(void);
 int draw_background(int color, int idx_buffer);
 int draw_square(int der_x, int der_y, int dX, int dY, int color, int idx_buffer);
+int draw_bmp_menu(void);
+int draw_bmp_win(void);
+int draw_bmp_fail(void);
 int display_close(void);
 
 #endif

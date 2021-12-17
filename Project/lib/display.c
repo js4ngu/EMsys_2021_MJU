@@ -16,6 +16,14 @@ int line_length;
 
 int mem_size;
 
+    char *pData, *data;
+    char r, g, b;
+    unsigned long pixel;
+    int cols = 0, rows = 0;
+    unsigned long bmpdata[1280 * 800];
+    int k, t;
+    unsigned char *pfbmap;
+
 int display_init(void)
 {
     // 커서 제거
@@ -152,6 +160,99 @@ int draw_square(int der_x, int der_y, int dX, int dY, int color, int idx_buffer)
     }
     else
         return -1;
+}
+
+int draw_bmp_menu(void)
+{
+    read_bmp("MENU.bmp", &pData, &data, &cols, &rows);
+    for (int j = 0; j < rows; j++)
+    {
+        k = j * cols * 3;
+        t = (rows - 1 - j) * cols; // 가로 size가 작을 수도 있다.
+
+        for (int i = 0; i < cols; i++)
+        {
+            b = *(data + (k + i * 3));
+            g = *(data + (k + i * 3 + 1));
+            r = *(data + (k + i * 3 + 2));
+
+            pixel = ((r << 16) | (g << 8) | b);
+            bmpdata[t + i] = pixel; // save bitmap data bottom up
+        }
+    }
+    printf("1");
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            ptr0 = (unsigned long *)fb_mapped0 + cols * i + j;
+            *ptr0 = bmpdata[j + i * cols];
+        }
+    }
+    close_bmp(&pData);
+}
+
+int draw_bmp_win(void)
+{
+    read_bmp("WIN.bmp", &pData, &data, &cols, &rows);
+    for (int j = 0; j < rows; j++)
+    {
+        k = j * cols * 3;
+        t = (rows - 1 - j) * cols; // 가로 size가 작을 수도 있다.
+
+        for (int i = 0; i < cols; i++)
+        {
+            b = *(data + (k + i * 3));
+            g = *(data + (k + i * 3 + 1));
+            r = *(data + (k + i * 3 + 2));
+
+            pixel = ((r << 16) | (g << 8) | b);
+            bmpdata[t + i] = pixel; // save bitmap data bottom up
+        }
+    }
+    printf("1");
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            ptr0 = (unsigned long *)fb_mapped0 + cols * i + j;
+            *ptr0 = bmpdata[j + i * cols];
+        }
+    }
+    close_bmp(&pData);
+}
+
+int draw_bmp_fail(void)
+{
+    read_bmp("FAIL.bmp", &pData, &data, &cols, &rows);
+    for (int j = 0; j < rows; j++)
+    {
+        k = j * cols * 3;
+        t = (rows - 1 - j) * cols; // 가로 size가 작을 수도 있다.
+
+        for (int i = 0; i < cols; i++)
+        {
+            b = *(data + (k + i * 3));
+            g = *(data + (k + i * 3 + 1));
+            r = *(data + (k + i * 3 + 2));
+
+            pixel = ((r << 16) | (g << 8) | b);
+            bmpdata[t + i] = pixel; // save bitmap data bottom up
+        }
+    }
+    printf("1");
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            ptr0 = (unsigned long *)fb_mapped0 + cols * i + j;
+            *ptr0 = bmpdata[j + i * cols];
+        }
+    }
+    close_bmp(&pData);
 }
 
 int display_close(void)

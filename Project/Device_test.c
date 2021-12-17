@@ -2,6 +2,7 @@
 #include <stdlib.h> // for exit
 #include <pthread.h>
 #include "./lib/accelMagGyro.h"
+#include "./lib/bitmap.h"
 #include "./lib/button.h"
 #include "./lib/buzzer.h"
 #include "./lib/colorLED.h"
@@ -26,12 +27,13 @@ int score;
 
 void *score_timer(void *data)
 {
-    while(1)
+    while (1)
     {
-        if(score < 0) score = 0;
+        if (score < 0)
+            score = 0;
         fndDisp(score, 0);
         usleep(50);
-        score--;        
+        score--;
     }
 }
 
@@ -81,58 +83,82 @@ void level_3_background(void)
 
 void level_1_obj_1(int OnOff)
 {
-    if(OnOff == 1) draw_square(340,220,50,50,0xFF0000, 0);
-    else if(OnOff == 0) draw_square(340,220,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(340, 220, 50, 50, 0xFF0000, 0);
+    else if (OnOff == 0)
+        draw_square(340, 220, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_1_obj_2(int OnOff)
 {
-    if(OnOff == 1) draw_square(730,400,50,50,0x0000FF, 0);
-    else if(OnOff == 0) draw_square(730,400,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(730, 400, 50, 50, 0x0000FF, 0);
+    else if (OnOff == 0)
+        draw_square(730, 400, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_2_obj_1(int OnOff)
 {
-    if(OnOff == 1) draw_square(850,400,50,50,0xFF0000, 0);
-    else if(OnOff == 0) draw_square(850,400,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(850, 400, 50, 50, 0xFF0000, 0);
+    else if (OnOff == 0)
+        draw_square(850, 400, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_2_obj_2(int OnOff)
 {
-    if(OnOff == 1) draw_square(900,100,50,50,0x00FF00, 0);
-    else if(OnOff == 0) draw_square(900,100,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(900, 100, 50, 50, 0x00FF00, 0);
+    else if (OnOff == 0)
+        draw_square(900, 100, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_2_obj_3(int OnOff)
 {
-    if(OnOff == 1) draw_square(440,450,50,50,0x0000FF, 0);
-    else if(OnOff == 0) draw_square(440,450,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(440, 450, 50, 50, 0x0000FF, 0);
+    else if (OnOff == 0)
+        draw_square(440, 450, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_3_obj_1(int OnOff)
 {
-    if(OnOff == 1) draw_square(870,500,50,50,0xFF0000, 0);
-    else if(OnOff == 0) draw_square(870,500,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(870, 500, 50, 50, 0xFF0000, 0);
+    else if (OnOff == 0)
+        draw_square(870, 500, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_3_obj_2(int OnOff)
 {
-    if(OnOff == 1) draw_square(120,120,50,50,0x00FF00, 0);
-    else if(OnOff == 0) draw_square(120,120,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(120, 120, 50, 50, 0x00FF00, 0);
+    else if (OnOff == 0)
+        draw_square(120, 120, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 void level_3_obj_3(int OnOff)
 {
-    if(OnOff == 1) draw_square(512,300,50,50,0x0000FF, 0);
-    else if(OnOff == 0) draw_square(512,300,50,50,0xFFFFFF, 0);
-    else;
+    if (OnOff == 1)
+        draw_square(512, 300, 50, 50, 0x0000FF, 0);
+    else if (OnOff == 0)
+        draw_square(512, 300, 50, 50, 0xFFFFFF, 0);
+    else
+        ;
 }
 
 int main(void)
@@ -159,12 +185,13 @@ int main(void)
         {
         case MENU: // 메인 메뉴
             // 프레임버퍼에 메뉴 사진 밀어넣고 띄우기
+            draw_bmp_menu();
             printf("Press Key\r\n");
             writeLCD(1, "Game Menu       ");
             writeLCD(2, "                ");
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                ledOnOff(i,OFF);
+                ledOnOff(i, OFF);
             }
             returnValue = msgrcv(msgID, &messageRxData, sizeof(int), 0, 0); // 버튼 입력 받기
             if (returnValue < 0)
@@ -201,6 +228,7 @@ int main(void)
             // 프레임버퍼에 승리 사진 밀어넣고 띄우기
             writeLCD(1, "You Won!        ");
             writeLCD(2, "You Are Winner! ");
+            draw_bmp_win();
             pthread_cancel(thread);
             returnValue = msgrcv(msgID, &messageRxData, sizeof(int), 0, 0); // 버튼 입력 받기
             if (returnValue < 0)
@@ -222,6 +250,7 @@ int main(void)
         case EXIT: // 게임 종료
             writeLCD(1, "Good Bye        ");
             writeLCD(2, "                ");
+            draw_background(0x000000, 0);
             buttonExit();
             return 0;
 
@@ -250,14 +279,14 @@ int main(void)
                 int Cx = (Ax + 20);
                 int Cy = (Ay + 20);
 
-                if(orb_count == 2)
+                if (orb_count == 2)
                 {
                     level_1_obj_1(OFF);
                     level_1_obj_2(OFF);
                     status = LEVEL2;
                     flag_safe = 0;
                 }
-                else if(orb_count == 1)
+                else if (orb_count == 1)
                 {
                     level_1_obj_1(OFF);
                     level_1_obj_2(ON);
@@ -277,15 +306,15 @@ int main(void)
                     flag_safe = 0;
                 }
 
-                if(orb_count == 0 && Cx > 340 && Cx < 340+50 && Cy > 220 && Cy < 220+50)
+                if (orb_count == 0 && Cx > 340 && Cx < 340 + 50 && Cy > 220 && Cy < 220 + 50)
                 {
                     orb_count = 1;
-                    ledOnOff(0,ON);
+                    ledOnOff(0, ON);
                 }
-                if(orb_count == 1 && Cx > 730 && Cx < 730+50 && Cy > 400 && Cy < 400+50)
+                if (orb_count == 1 && Cx > 730 && Cx < 730 + 50 && Cy > 400 && Cy < 400 + 50)
                 {
                     orb_count = 2;
-                    ledOnOff(1,ON);
+                    ledOnOff(1, ON);
                 }
 
                 draw_square(Ax, Ay, 40, 40, 0x000000, 0);
@@ -316,7 +345,7 @@ int main(void)
                 int Cx = (Ax + 20);
                 int Cy = (Ay + 20);
 
-                if(orb_count == 5)
+                if (orb_count == 5)
                 {
                     level_2_obj_1(OFF);
                     level_2_obj_2(OFF);
@@ -324,13 +353,13 @@ int main(void)
                     status = LEVEL3;
                     flag_safe = 0;
                 }
-                else if(orb_count == 4)
+                else if (orb_count == 4)
                 {
                     level_2_obj_1(OFF);
                     level_2_obj_2(OFF);
                     level_2_obj_3(ON);
                 }
-                else if(orb_count == 3)
+                else if (orb_count == 3)
                 {
                     level_2_obj_1(OFF);
                     level_2_obj_2(ON);
@@ -357,20 +386,20 @@ int main(void)
                     flag_safe = 0;
                 }
 
-                if(orb_count == 2 && Cx > 850 && Cx < 850+50 && Cy > 400 && Cy < 400+50)
+                if (orb_count == 2 && Cx > 850 && Cx < 850 + 50 && Cy > 400 && Cy < 400 + 50)
                 {
                     orb_count = 3;
-                    ledOnOff(2,ON);
+                    ledOnOff(2, ON);
                 }
-                if(orb_count == 3 && Cx > 900 && Cx < 900+50 && Cy > 100 && Cy < 100+50)
+                if (orb_count == 3 && Cx > 900 && Cx < 900 + 50 && Cy > 100 && Cy < 100 + 50)
                 {
                     orb_count = 4;
-                    ledOnOff(3,ON);
+                    ledOnOff(3, ON);
                 }
-                if(orb_count == 4 && Cx > 440 && Cx < 440+50 && Cy > 450 && Cy < 450+50)
+                if (orb_count == 4 && Cx > 440 && Cx < 440 + 50 && Cy > 450 && Cy < 450 + 50)
                 {
                     orb_count = 5;
-                    ledOnOff(4,ON);
+                    ledOnOff(4, ON);
                 }
 
                 draw_square(Ax, Ay, 40, 40, 0x000000, 0);
@@ -401,7 +430,7 @@ int main(void)
                 int Cx = (Ax + 20);
                 int Cy = (Ay + 20);
 
-                if(orb_count == 8)
+                if (orb_count == 8)
                 {
                     level_3_obj_1(OFF);
                     level_3_obj_2(OFF);
@@ -409,13 +438,13 @@ int main(void)
                     status = WIN;
                     flag_safe = 0;
                 }
-                else if(orb_count == 7)
+                else if (orb_count == 7)
                 {
                     level_3_obj_1(OFF);
                     level_3_obj_2(OFF);
                     level_3_obj_3(ON);
                 }
-                else if(orb_count == 6)
+                else if (orb_count == 6)
                 {
                     level_3_obj_1(OFF);
                     level_3_obj_2(ON);
@@ -427,7 +456,6 @@ int main(void)
                     level_3_obj_2(ON);
                     level_3_obj_3(ON);
                 }
-
 
                 if (Cx > 50 && Cx < 1024 - 50 && Cy > 50 && Cy < 600 - 50)
                 {
@@ -448,20 +476,20 @@ int main(void)
                     flag_safe = 0;
                 }
 
-                if(orb_count == 5 && Cx > 870 && Cx < 870+50 && Cy > 500 && Cy < 500+50)
+                if (orb_count == 5 && Cx > 870 && Cx < 870 + 50 && Cy > 500 && Cy < 500 + 50)
                 {
                     orb_count = 6;
-                    ledOnOff(5,ON);
+                    ledOnOff(5, ON);
                 }
-                if(orb_count == 6 && Cx > 120 && Cx < 120+50 && Cy > 120 && Cy < 120+50)
+                if (orb_count == 6 && Cx > 120 && Cx < 120 + 50 && Cy > 120 && Cy < 120 + 50)
                 {
                     orb_count = 7;
-                    ledOnOff(6,ON);
+                    ledOnOff(6, ON);
                 }
-                if(orb_count == 7 && Cx > 512 && Cx < 512+50 && Cy > 300 && Cy < 300+50)
+                if (orb_count == 7 && Cx > 512 && Cx < 512 + 50 && Cy > 300 && Cy < 300 + 50)
                 {
                     orb_count = 8;
-                    ledOnOff(7,ON);
+                    ledOnOff(7, ON);
                 }
 
                 draw_square(Ax, Ay, 40, 40, 0x000000, 0);
@@ -474,6 +502,7 @@ int main(void)
 
         case FAIL: // 실패할 경우 처음부터 시작하거나 게임 종료
             writeLCD(2, "Failed          ");
+            draw_bmp_fail();
             pthread_cancel(thread);
             returnValue = msgrcv(msgID, &messageRxData, sizeof(int), 0, 0); // 버튼 입력 받기
             if (returnValue < 0)
