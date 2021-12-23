@@ -1,5 +1,6 @@
 # 간단한 레트로 게임 제작
 EMsys_2021_MJU 12조 유종상 김지호
+- [링크](https://youtu.be/GqgYtuijPBs)
 
 ## 실행 방법
   + /home/ecube/EMsys/periboard/peridriver.ko 에서 모든 드라이버를 insmod 명령어로 설치
